@@ -4,10 +4,11 @@ class Player {
     this.y = y;
     // this.width = width;
     //  this.height = height;
-    this.width = baseImgGB.width * charObject.scale;
+    this.width = `baseImg` + `${charObject.abbreviation}`.width * charObject.scale;
     this.height = baseImgGB.height * charObject.scale;
     this.charName = charObject.name;
     this.imagePath = undefined;
+    this.chakraBall = new ChakraBall;
   }
 
   moveRight() {
@@ -43,6 +44,11 @@ class Player {
   _assignImagePath() {
     //this.imagePath = `./img/` + `${this.charName}`;
     this.imagePath = `./img/` + `${this.charName}/` + `base.png`;
-    console.log(this.imagePath);
+    //console.log(this.imagePath);
   }
+
+  specialAttack(){
+
+    this.chakraBall._assignImage();
+  }  
 }

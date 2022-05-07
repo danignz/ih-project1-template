@@ -2,8 +2,8 @@
 const screenHeightLimit = 50;
 
 const characters = [
-    { name: "GogeteBlue", scale: 0.12 },
-    { name: "Cell", scale: 0.14 }
+    { name: "GogeteBlue", abbreviation: "GB", scale: 0.12 },
+    { name: "Cell", abbreviation: "CE", scale: 0.14 }
   ];
 
 const baseImgGB = new Image();

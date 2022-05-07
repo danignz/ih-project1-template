@@ -6,7 +6,7 @@ class Game{
   }
 
   _drawPlayer() {
-    console.log(this.imagePath);
+    //console.log(this.imagePath);
     this.ctx.drawImage(baseImgGB, this.player.x, this.player.y, this.player.width, this.player.height);
   }
 
@@ -17,7 +17,7 @@ class Game{
   _drawEnemy() {
     //Scaling factor in the horizontal direction. A negative value flips pixels across the vertical axis. 
     this.ctx.scale(-1,1);
-    console.log(this.enemy.x, this.enemy.y);
+    //console.log(this.enemy.x, this.enemy.y);
     //console.log(baseImgGB.height * 0.12);
     //console.log(baseImgGB.width * 0.12);
     this.ctx.drawImage(baseImgCE, this.enemy.x, this.enemy.y, this.enemy.width, this.enemy.height);
@@ -47,8 +47,12 @@ class Game{
         case 'ArrowDown':
             this.player.moveDown();
           break;
+        case 'Space':
+            this.player.specialAttack();
+          break;
         default:
           break;
+        
       }
     });
   }
