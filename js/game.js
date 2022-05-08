@@ -149,6 +149,17 @@ class Game {
     });
   }
 
+  _checkCollisions() {
+
+    console.log("Player  x= ", this.player.x+this.player.width,"y= ", this.player.y, "width= ", this.player.width, "height= ", this.player.height);
+    console.log("Enemy  x= ", Math.abs(this.enemy.x)-this.enemy.width,"y= ", this.enemy.y, "width= ", this.enemy.width, "height= ", this.enemy.height);
+    console.log("ChakraBall  x= ", this.player.chakraBall.x,"y= ", this.player.chakraBall.y, "width= ", this.player.charImages[1].width * this.player.scale, "height= ",  this.player.charImages[1].height * this.player.scale);
+
+    
+    
+
+  }
+
   //Method to clear the screen everytime
   _clean() {
     this.ctx.clearRect(0, 0, 1000, 600);
@@ -161,6 +172,7 @@ class Game {
     this._drawEnemy();
     this._drawChakraBall();
     this._drawAnimation();
+    this._checkCollisions();
     window.requestAnimationFrame(() => this._update());
   }
 

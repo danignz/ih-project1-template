@@ -6,7 +6,7 @@ class ChakraBall {
     this.moveIntervalWait = undefined;
   }
 
-  //Method to stop interval, amd set initial values
+  //Method to stop interval and set initial values
   _stopMove() {
     clearInterval(this.moveInterval);
     this.moveInterval = undefined;
