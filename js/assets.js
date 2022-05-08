@@ -1,11 +1,13 @@
-//Create Limit where the player cannpt move due the markers space
+//Create height limit where the player cannot move due the markers space
 const screenHeightLimit = 50;
 
+//The array contain all the avariable chars and their imagenes
 const characters = [
   { name: "GogetaBlue", scale: 0.12, imageSecuence: [] },
   { name: "Cell", scale: 0.15, imageSecuence: [] },
 ];
 
+//Load all the images for every char
 for (let i = 0; i < characters.length; i++) {
   characters[i].imageSecuence[0] = new Image();
   characters[i].imageSecuence[0].src = `./img/${characters[i].name}/base.png`;

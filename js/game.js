@@ -3,11 +3,9 @@ class Game {
     this.ctx = context;
     this.player = new Player(100, 230, characters[0]);
     this.enemy = new Enemy(-1000, 230, characters[1]);
-    this.intervalMoveThrough = undefined;
   }
 
   _drawPlayer() {
-    //console.log(this.imagePath);
     this.ctx.drawImage(
       this.player.charImages[0],
       this.player.x,
@@ -37,6 +35,7 @@ class Game {
   }
 
   _drawChakraBall() {
+    //Only draw the ChakraBall if setInterval its undefined (that means that there are not another running in this moment)
     if (this.player.chakraBall.moveInterval) {
       this.ctx.drawImage(
         this.player.charImages[1],
@@ -49,7 +48,7 @@ class Game {
   }
 
   _assignControls() {
-    // Controles del teclado
+    // keyboard controls
     document.addEventListener("keydown", (event) => {
       switch (event.code) {
         case "ArrowLeft":
@@ -65,6 +64,8 @@ class Game {
           this.player.moveDown();
           break;
         case "Space":
+          //Only creates a new ChakraBall if setInterval its undefined (that means that there are not another running in this moment)
+          //Inovke _setStart method, it need to know the coordinates of the char's current position, and add to the X-asis its width to be draw in the right place
           if (!this.player.chakraBall.moveInterval) {
             this.player.chakraBall._setStart(
               this.player.x + this.player.width,
@@ -92,8 +93,6 @@ class Game {
 
   start() {
     this._assignControls();
-    //this._generatePlayer();
-    //this._generateEnemy();
     this._update();
   }
 }
