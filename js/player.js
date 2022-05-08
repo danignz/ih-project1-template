@@ -4,11 +4,15 @@ class Player {
     this.y = y;
     // this.width = width;
     //  this.height = height;
-    this.width = `baseImg` + `${charObject.abbreviation}`.width * charObject.scale;
-    this.height = baseImgGB.height * charObject.scale;
+    this.width = charObject.imageSecuence[0].width * charObject.scale;
+    //console.log(charObject.imageSecuence[0].width);
+    this.height = charObject.imageSecuence[0].height * charObject.scale;
+    //console.log(charObject.imageSecuence[0].height);
     this.charName = charObject.name;
+    this.scale = charObject.scale;
     this.imagePath = undefined;
-    this.chakraBall = new ChakraBall;
+    this.chakraBall = new ChakraBall(this.x, this.y);
+    this.charImages = charObject.imageSecuence;
   }
 
   moveRight() {
@@ -41,14 +45,7 @@ class Player {
     }
   }
 
-  _assignImagePath() {
-    //this.imagePath = `./img/` + `${this.charName}`;
-    this.imagePath = `./img/` + `${this.charName}/` + `base.png`;
-    //console.log(this.imagePath);
-  }
-
-  specialAttack(){
-
+  specialAttack() {
     this.chakraBall._assignImage();
-  }  
+  }
 }

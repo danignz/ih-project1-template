@@ -1,58 +1,79 @@
-class Game{
+class Game {
   constructor(context) {
     this.ctx = context;
     this.player = new Player(100, 230, characters[0]);
     this.enemy = new Enemy(-1000, 230, characters[1]);
+    this.intervalMoveThrough = undefined;
   }
 
   _drawPlayer() {
     //console.log(this.imagePath);
-    this.ctx.drawImage(baseImgGB, this.player.x, this.player.y, this.player.width, this.player.height);
-  }
-
-  _generatePlayer() {
-    this.player._assignImagePath();
+    this.ctx.drawImage(
+      this.player.charImages[0],
+      this.player.x,
+      this.player.y,
+      this.player.width,
+      this.player.height
+    );
   }
 
   _drawEnemy() {
-    //Scaling factor in the horizontal direction. A negative value flips pixels across the vertical axis. 
-    this.ctx.scale(-1,1);
+    //Scaling factor in the horizontal direction. A negative value flips pixels across the vertical axis.
+    this.ctx.scale(-1, 1);
     //console.log(this.enemy.x, this.enemy.y);
     //console.log(baseImgGB.height * 0.12);
     //console.log(baseImgGB.width * 0.12);
-    this.ctx.drawImage(baseImgCE, this.enemy.x, this.enemy.y, this.enemy.width, this.enemy.height);
+    this.ctx.drawImage(
+      this.enemy.charImages[0],
+      this.enemy.x,
+      this.enemy.y,
+      this.enemy.width,
+      this.enemy.height
+    );
     // Reset current transformation matrix to the identity matrix
-    //this.ctx.setTransform(1,0,0,1,0,0);
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     //this.ctx.drawImage(baseImgGB, this.enemy.x, this.enemy.y, this.enemy.width, this.enemy.height);
     //console.log(this.enemy.x, this.enemy.y);
   }
 
-  _generateEnemy() {
-    this.enemy._assignImagePath();
+  _drawChakraBall() {
+    if (this.player.chakraBall.moveInterval) {
+      this.ctx.drawImage(
+        this.player.charImages[1],
+        this.player.chakraBall.x,
+        this.player.chakraBall.y,
+        this.player.charImages[1].width * this.player.scale,
+        this.player.charImages[1].height * this.player.scale
+      );
+    }
   }
 
   _assignControls() {
     // Controles del teclado
-    document.addEventListener('keydown', (event) => {
+    document.addEventListener("keydown", (event) => {
       switch (event.code) {
-        case 'ArrowLeft':
+        case "ArrowLeft":
           this.player.moveLeft();
           break;
-        case 'ArrowRight':
+        case "ArrowRight":
           this.player.moveRight();
           break;
-        case 'ArrowUp':
-            this.player.moveUp();
+        case "ArrowUp":
+          this.player.moveUp();
           break;
-        case 'ArrowDown':
-            this.player.moveDown();
+        case "ArrowDown":
+          this.player.moveDown();
           break;
-        case 'Space':
-            this.player.specialAttack();
+        case "Space":
+          if (!this.player.chakraBall.moveInterval) {
+            this.player.chakraBall._setStart(
+              this.player.x + this.player.width,
+              this.player.y
+            );
+          }
           break;
         default:
           break;
-        
       }
     });
   }
@@ -65,13 +86,14 @@ class Game{
     this._clean();
     this._drawPlayer();
     this._drawEnemy();
+    this._drawChakraBall();
     window.requestAnimationFrame(() => this._update());
   }
 
   start() {
     this._assignControls();
-    this._generatePlayer();
-    this._generateEnemy();
+    //this._generatePlayer();
+    //this._generateEnemy();
     this._update();
   }
 }

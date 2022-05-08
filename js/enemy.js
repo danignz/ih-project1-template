@@ -1,5 +1,1 @@
-class Enemy extends Player{
-
-
-    }
-  
+class Enemy extends Player {}

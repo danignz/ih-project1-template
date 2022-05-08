@@ -1,27 +1,31 @@
-class ChakraBall{
-    constructor() {
-    //   this.x = Math.floor(Math.random() * (950 - 4) + 5);
-    //   this.y = Math.floor(Math.random() * (-100 +60 + 1) -60);
-    //   this.width = width;
-    //   this.height = height;
-    //   this.role = undefined;
-    //   this.fallInterval = undefined;
-      this.image = undefined;
-    }
-  /*
-    _fallDown() {
-      // console.log(`Droplet position: x = ${this.x} y = ${this.y}`);
-      this.fallInterval = setInterval(() => {
-        if (this.y > 650) {
-        clearInterval(this.fallInterval);
-        } else {
-          this.y = this.y + 1;
-        }
-      }, 1000);
-    }
-    */
-    _assignImage() {
-        this.imagePath = `./img/` + `${this.charName}/` + `chakraball.png`;
-        console.log(this.imagePath);
-    }
+class ChakraBall {
+  constructor(charPositionX, charPositionY) {
+    this.x = charPositionX;
+    this.y = charPositionY;
+    this.moveInterval = undefined;
   }
+
+  _stopMove() {
+    clearInterval(this.moveInterval);
+    this.moveInterval = undefined;
+    //console.log(this.moveInterval);
+  }
+
+  _setStart(charPositionX, charPositionY) {
+    this.x = charPositionX;
+    this.y = charPositionY;
+
+    const limitTimes = 70;
+    let i = 1;
+
+    //console.log("START!");
+    this.moveInterval = setInterval(() => {
+      //console.log(`message ${i}, appeared after ${i++} seconds`);
+      this.x = this.x + 40;
+      if (i > limitTimes) {
+        this._stopMove();
+        //console.log("interval cleared!");
+      }
+    }, 100);
+  }
+}
