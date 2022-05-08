@@ -17,6 +17,7 @@ Minimum user stories:
 - The enemy must be painted on the opposite side
 - User can hit space button and throw a ChakraBall 
 - ChakraBall throw are limited by time
+- Add animation to the player commands
 
 ## User stories Backlog
 

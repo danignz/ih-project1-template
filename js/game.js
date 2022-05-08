@@ -5,6 +5,7 @@ class Game {
     this.enemy = new Enemy(-1000, 230, characters[1]);
   }
 
+  //Method to draw the player at the screen
   _drawPlayer() {
     this.ctx.drawImage(
       this.player.charImages[0],
@@ -15,6 +16,7 @@ class Game {
     );
   }
 
+  //Method to draw the enemy at the screen
   _drawEnemy() {
     //Scaling factor in the horizontal direction. A negative value flips pixels across the vertical axis.
     this.ctx.scale(-1, 1);
@@ -34,9 +36,14 @@ class Game {
     //console.log(this.enemy.x, this.enemy.y);
   }
 
+  //Method to draw the ChakraBall
   _drawChakraBall() {
-    //Only draw the ChakraBall if setInterval its undefined (that means that there are not another running in this moment)
-    if (this.player.chakraBall.moveInterval) {
+    //Only draw the ChakraBall if moveIntervalWait its undefined (means that its not a wait for the char animation) and
+    //if moveInterval its not undefined (that means that chakraball its running)
+    if (
+      this.player.chakraBall.moveInterval &&
+      !this.player.chakraBall.moveIntervalWait
+    ) {
       this.ctx.drawImage(
         this.player.charImages[1],
         this.player.chakraBall.x,
@@ -47,8 +54,10 @@ class Game {
     }
   }
 
+  //Method to draw and Animation
   _drawAnimation() {
-    //Only draw the ChakraBall if setInterval its undefined (that means that there are not another running in this moment)
+    //Only draw the animation if actionInterval its not undefined (that means that and animation its running)
+    //The imagine to show everytime will depen of initFrame that its going to change everytime due a actionInterval that increases the freme everytime
     if (this.player.charAnimaton.actionInterval) {
       this._clean();
       this._drawEnemy();
@@ -63,8 +72,8 @@ class Game {
     }
   }
 
+  // keyboard controls
   _assignControls() {
-    // keyboard controls
     document.addEventListener("keydown", (event) => {
       switch (event.code) {
         case "ArrowLeft":
@@ -80,18 +89,58 @@ class Game {
           this.player.moveDown();
           break;
         case "Space":
-          //Only creates a new ChakraBall if setInterval its undefined (that means that there are not another running in this moment)
-          //Also the other setinternal that manages the duration of the animation has to be undefined (that means that there are not another running in this moment)
+          //Only creates a new ChakraBall if both setInterval are undefined (that means that there are not another running in this moment)
+          //The moveIntervalWait manages the duration of char's animation before throwing the ball. Undefined means that there are not another running in this moment.
           if (
             !this.player.chakraBall.moveInterval &&
             !this.player.chakraBall.moveIntervalWait
           ) {
             this.player.charAnimaton.executeAnimation("special");
-            //Inovke _setStart method, it need to know the coordinates of the char's current position, and add to the X-asis its width to be draw in the right place
+            //Invoke to _setStart method, it needs to know the coordinates of the char's current position, and add to the X-asis its width to be draw in the right place
             this.player.chakraBall._setStart(
               this.player.x + this.player.width,
               this.player.y
             );
+          }
+          break;
+        case "KeyA":
+          //To execute the action its needed that not chakraball its running at this moment and either there is not another animation of this char running right now
+          if (
+            !this.player.chakraBall.moveInterval &&
+            !this.player.chakraBall.moveIntervalWait &&
+            this.player.charAnimaton.actionInterval === undefined
+          ) {
+            this.player.charAnimaton.executeAnimation("punch");
+          }
+          break;
+        case "KeyS":
+          //To execute the action its needed that not chakraball its running at this moment and either there is not another animation of this char running right now
+          if (
+            !this.player.chakraBall.moveInterval &&
+            !this.player.chakraBall.moveIntervalWait &&
+            this.player.charAnimaton.actionInterval === undefined
+          ) {
+            this.player.charAnimaton.executeAnimation("kick");
+          }
+          break;
+        case "KeyD":
+          //To execute the action its needed that not chakraball its running at this moment and either there is not another animation of this char running right now
+          if (
+            !this.player.chakraBall.moveInterval &&
+            !this.player.chakraBall.moveIntervalWait &&
+            this.player.charAnimaton.actionInterval === undefined
+          ) {
+            this.player.charAnimaton.executeAnimation("energy");
+          }
+          break;
+        case "KeyU":
+          //To execute the action its needed that not chakraball its running at this moment and either there is not another animation of this char running right now
+          if (
+            !this.player.chakraBall.moveInterval &&
+            !this.player.chakraBall.moveIntervalWait &&
+            this.player.charAnimaton.actionInterval === undefined
+          ) {
+            this.player.charAnimaton.executeAnimation("intro");
           }
           break;
         default:
@@ -100,10 +149,12 @@ class Game {
     });
   }
 
+  //Method to clear the screen everytime
   _clean() {
     this.ctx.clearRect(0, 0, 1000, 600);
   }
 
+  //Method to refresh the screen everytime
   _update() {
     this._clean();
     this._drawPlayer();

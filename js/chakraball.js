@@ -5,35 +5,39 @@ class ChakraBall {
     this.moveInterval = undefined;
     this.moveIntervalWait = undefined;
   }
+
   //Method to stop interval and reset its id
   _stopMove() {
     clearInterval(this.moveInterval);
     this.moveInterval = undefined;
-    //console.log(this.moveInterval);
   }
 
-  //Set the position where the chakraBall will be painted. Created a interval, where each fraction time increases X position and auto stop itself where it reach time limit.
-  _setStart(charPositionX, charPositionY) {
-    //Need to know the current position of char
-    this.x = charPositionX;
+  //Method to stop interval and reset its id
+  _stopWait() {
+    clearInterval(this.moveIntervalWait);
+    this.moveIntervalWait = undefined;
+  }
+
+  //Method that sets the position where the chakraBall will be painted and also created two intervals.
+  //The first one "moveIntervalWait" its to give the char enough time to finnish the animation of throwing the ball.
+  //The second one "moveInterval" each fraction of time increases X position and auto stop itself where it reach time limit.
+  //Each execution of moveInterval will cause to draw a different frame, due x its increasing and it will be readed by the Game method _drawChakraBall
+  _setStart(charPositionXAddedWidth, charPositionY) {
+    //Need to know the current position of char to paint the ball
+    this.x = charPositionXAddedWidth;
     this.y = charPositionY;
-    //Vars need to manage the Interval time Limits
+    //Next vars needed to manage the moveInterval time limits, autofinnish painted ball when the variable reach a limit
     const limitTimes = 25;
     let i = 1;
 
-    //the first set interval its only use to wait the animation ends to start the ChakraBall animation
+    //the moveIntervalWait its only used to generate enough time for the action animation char's ends before to start the ChakraBall animation
     this.moveIntervalWait = setInterval(() => {
       this.moveInterval = setInterval(() => {
-        clearInterval(this.moveIntervalWait);
-        this.moveIntervalWait = undefined;
-
-        //console.log(`message ${i}, appeared after ${i++} seconds`);
+        this._stopWait(); //Stop the first interval, only waits for one time. When the chars execute the throwing
         this.x = this.x + 40;
         if (i > limitTimes) {
-          //When reach (limitTimes*100) seconds the interval stop itself
+          //When reach (limitTimes*100) seconds the interval stop itself (the ball acrossed the full width)
           this._stopMove();
-
-          //console.log("interval cleared!");
         }
         i++;
       }, 100);

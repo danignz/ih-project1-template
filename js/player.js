@@ -12,7 +12,6 @@ class Player {
     this.charImages = charObject.imageSecuence;
     this.chakraBall = new ChakraBall();
     this.charAnimaton = new AnimationPlayer();
-    this.actionInterval = undefined;
   }
 
   moveRight() {
@@ -22,8 +21,6 @@ class Player {
       !this.chakraBall.moveInterval &&
       !this.chakraBall.moveIntervalWait
     ) {
-      //console.log(canvas.width);
-      //console.log(this.x);
       this.x = this.x + 15;
     }
   }
@@ -35,8 +32,6 @@ class Player {
       !this.chakraBall.moveInterval &&
       !this.chakraBall.moveIntervalWait
     ) {
-      //console.log(canvas.width);
-      //console.log(this.x);
       this.x = this.x - 15;
     }
   }
@@ -59,8 +54,6 @@ class Player {
       !this.chakraBall.moveInterval &&
       !this.chakraBall.moveIntervalWait
     ) {
-      //console.log(canvas.height);
-      //console.log(this.y);
       this.y = this.y + 15;
     }
   }
