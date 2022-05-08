@@ -47,6 +47,22 @@ class Game {
     }
   }
 
+  _drawAnimation() {
+    //Only draw the ChakraBall if setInterval its undefined (that means that there are not another running in this moment)
+    if (this.player.charAnimaton.actionInterval) {
+      this._clean();
+      this._drawEnemy();
+      this._drawChakraBall();
+      this.ctx.drawImage(
+        this.player.charImages[this.player.charAnimaton.initFrame],
+        this.player.x,
+        this.player.y,
+        this.player.width,
+        this.player.height
+      );
+    }
+  }
+
   _assignControls() {
     // keyboard controls
     document.addEventListener("keydown", (event) => {
@@ -65,8 +81,13 @@ class Game {
           break;
         case "Space":
           //Only creates a new ChakraBall if setInterval its undefined (that means that there are not another running in this moment)
-          //Inovke _setStart method, it need to know the coordinates of the char's current position, and add to the X-asis its width to be draw in the right place
-          if (!this.player.chakraBall.moveInterval) {
+          //Also the other setinternal that manages the duration of the animation has to be undefined (that means that there are not another running in this moment)
+          if (
+            !this.player.chakraBall.moveInterval &&
+            !this.player.chakraBall.moveIntervalWait
+          ) {
+            this.player.charAnimaton.executeAnimation("special");
+            //Inovke _setStart method, it need to know the coordinates of the char's current position, and add to the X-asis its width to be draw in the right place
             this.player.chakraBall._setStart(
               this.player.x + this.player.width,
               this.player.y
@@ -88,6 +109,7 @@ class Game {
     this._drawPlayer();
     this._drawEnemy();
     this._drawChakraBall();
+    this._drawAnimation();
     window.requestAnimationFrame(() => this._update());
   }
 

@@ -11,7 +11,12 @@ Game's purpose and description
 
 Minimum user stories:
 
-- User can ...
+- The player must be painted on the correct starting position
+- User can move right, left, up or down
+- User can not move if collides with screen limits and markers place
+- The enemy must be painted on the opposite side
+- User can hit space button and throw a ChakraBall 
+- ChakraBall throw are limited by time
 
 ## User stories Backlog
 

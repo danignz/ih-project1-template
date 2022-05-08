@@ -11,11 +11,17 @@ class Player {
     this.scale = charObject.scale;
     this.charImages = charObject.imageSecuence;
     this.chakraBall = new ChakraBall();
+    this.charAnimaton = new AnimationPlayer();
+    this.actionInterval = undefined;
   }
 
   moveRight() {
     //As long as the character is not cut by the right side we can move
-    if (this.x + 15 <= canvas.width - this.width) {
+    if (
+      this.x + 15 <= canvas.width - this.width &&
+      !this.chakraBall.moveInterval &&
+      !this.chakraBall.moveIntervalWait
+    ) {
       //console.log(canvas.width);
       //console.log(this.x);
       this.x = this.x + 15;
@@ -24,7 +30,11 @@ class Player {
 
   moveLeft() {
     //As long as the character is not cut by the left side we can move
-    if (this.x - 15 >= 0) {
+    if (
+      this.x - 15 >= 0 &&
+      !this.chakraBall.moveInterval &&
+      !this.chakraBall.moveIntervalWait
+    ) {
       //console.log(canvas.width);
       //console.log(this.x);
       this.x = this.x - 15;
@@ -33,18 +43,25 @@ class Player {
 
   moveUp() {
     //As long as the character respect the height limit where the markers space are, its able to move
-    if (this.y - 15 >= screenHeightLimit) {
+    if (
+      this.y - 15 >= screenHeightLimit &&
+      !this.chakraBall.moveInterval &&
+      !this.chakraBall.moveIntervalWait
+    ) {
       this.y = this.y - 15;
     }
   }
 
   moveDown() {
     //As long as the character is not cut by the down side we can move down
-    if (this.y + 15 <= canvas.height - this.height) {
+    if (
+      this.y + 15 <= canvas.height - this.height &&
+      !this.chakraBall.moveInterval &&
+      !this.chakraBall.moveIntervalWait
+    ) {
       //console.log(canvas.height);
       //console.log(this.y);
       this.y = this.y + 15;
     }
   }
-
 }
