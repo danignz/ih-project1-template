@@ -11,7 +11,7 @@ class AnimationPlayer {
     this.actionInterval = undefined;
   }
 
-  executeAnimation(action) {
+  _executeAnimation(action) {
     switch (action) {
       case "energy":
         this.initFrame = 5;

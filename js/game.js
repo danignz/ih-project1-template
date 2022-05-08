@@ -95,7 +95,7 @@ class Game {
             !this.player.chakraBall.moveInterval &&
             !this.player.chakraBall.moveIntervalWait
           ) {
-            this.player.charAnimaton.executeAnimation("special");
+            this.player.charAnimaton._executeAnimation("special");
             //Invoke to _setStart method, it needs to know the coordinates of the char's current position, and add to the X-asis its width to be draw in the right place
             this.player.chakraBall._setStart(
               this.player.x + this.player.width,
@@ -110,7 +110,7 @@ class Game {
             !this.player.chakraBall.moveIntervalWait &&
             this.player.charAnimaton.actionInterval === undefined
           ) {
-            this.player.charAnimaton.executeAnimation("punch");
+            this.player.charAnimaton._executeAnimation("punch");
           }
           break;
         case "KeyS":
@@ -120,7 +120,7 @@ class Game {
             !this.player.chakraBall.moveIntervalWait &&
             this.player.charAnimaton.actionInterval === undefined
           ) {
-            this.player.charAnimaton.executeAnimation("kick");
+            this.player.charAnimaton._executeAnimation("kick");
           }
           break;
         case "KeyD":
@@ -130,7 +130,7 @@ class Game {
             !this.player.chakraBall.moveIntervalWait &&
             this.player.charAnimaton.actionInterval === undefined
           ) {
-            this.player.charAnimaton.executeAnimation("energy");
+            this.player.charAnimaton._executeAnimation("energy");
           }
           break;
         case "KeyU":
@@ -140,7 +140,7 @@ class Game {
             !this.player.chakraBall.moveIntervalWait &&
             this.player.charAnimaton.actionInterval === undefined
           ) {
-            this.player.charAnimaton.executeAnimation("intro");
+            this.player.charAnimaton._executeAnimation("intro");
           }
           break;
         default:
