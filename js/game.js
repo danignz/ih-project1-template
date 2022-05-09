@@ -26,9 +26,6 @@ class Game {
     if (!this.enemy.charAnimaton.actionInterval) {
       //Scaling factor in the horizontal direction. A negative value flips pixels across the vertical axis.
       this.ctx.scale(-1, 1);
-      //console.log(this.enemy.x, this.enemy.y);
-      //console.log(baseImgGB.height * 0.12);
-      //console.log(baseImgGB.width * 0.12);
       this.ctx.drawImage(
         this.enemy.charImages[0],
         this.enemy.x,
@@ -38,8 +35,6 @@ class Game {
       );
       // Reset current transformation matrix to the identity matrix
       this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-      //this.ctx.drawImage(baseImgGB, this.enemy.x, this.enemy.y, this.enemy.width, this.enemy.height);
-      //console.log(this.enemy.x, this.enemy.y);
     }
   }
 
@@ -79,17 +74,11 @@ class Game {
     }
   }
 
-  //Method to draw and Animation
+  //Method to draw a player animation
   _drawAnimation() {
     //Only draw the animation if actionInterval its not undefined (that means that and animation its running)
     //The imagine to show everytime will depen of initFrame that its going to change everytime due a actionInterval that increases the freme everytime
     if (this.player.charAnimaton.actionInterval) {
-      //  this._clean();
-      //    this._drawPlayer();
-      //    this._drawEnemy();
-      //  this._drawChakraBall();
-      //  this._drawChakraBallE();
-      //  this._drawAnimation();
       this._drawAnimationE();
       this.ctx.drawImage(
         this.player.charImages[this.player.charAnimaton.initFrame],
@@ -101,18 +90,11 @@ class Game {
     }
   }
 
-  //Method to draw and Animation
+  //Method to draw a enemy animation
   _drawAnimationE() {
     //Only draw the animation if actionInterval its not undefined (that means that and animation its running)
     //The imagine to show everytime will depen of initFrame that its going to change everytime due a actionInterval that increases the freme everytime
     if (this.enemy.charAnimaton.actionInterval) {
-      // this._clean();
-      //    this._drawPlayer();
-      //     this._drawEnemy();
-      //    this._drawChakraBall();
-      //   this._drawChakraBallE();
-      //   this._drawAnimation();
-      //     this._drawAnimationE();
       this.ctx.scale(-1, 1);
       this.ctx.drawImage(
         this.enemy.charImages[this.enemy.charAnimaton.initFrame],
@@ -125,7 +107,7 @@ class Game {
     }
   }
 
-  // keyboard controls
+  //keyboard controls
   _assignControls() {
     document.addEventListener("keydown", (event) => {
       switch (event.code) {
@@ -213,7 +195,6 @@ class Game {
     } else {
       this.player.ableToAdvance = false;
     }
-    // console.log(this.player.ableToAdvance);
   }
 
   _checkEnemyAdvancedFront() {
@@ -226,31 +207,14 @@ class Game {
     } else {
       this.enemy.ableToAdvance = false;
     }
-    //console.log(this.enemy.ableToAdvance);
   }
 
   _manageEnemyIA() {
-    // this.enemy.moveLeft();
+    //this.enemy.moveLeft();
     //this.enemy.moveRight();
 
     //Only creates a new ChakraBall if both setInterval are undefined (that means that there are not another running in this moment)
     //The moveIntervalWait manages the duration of char's animation before throwing the ball. Undefined means that there are not another running in this moment.
-    /*
-   
-    if (
-      !this.player.chakraBall.moveInterval &&
-      !this.player.chakraBall.moveIntervalWait
-    ) {
-      this.player.charAnimaton._executeAnimation("special");
-      //Invoke to _setStart method, it needs to know the coordinates of the char's current position, and add to the X-asis its width to be draw in the right place
-      this.player.chakraBall._setStart(
-        this.player.x + this.player.width,
-        this.player.y
-      );
-    }
-
-*/
-
     if (
       !this.enemy.chakraBall.moveInterval &&
       !this.enemy.chakraBall.moveIntervalWait
@@ -298,7 +262,7 @@ class Game {
       "\nHeight= ",
       this.enemy.height
     );
-*/
+
     console.log(
       "Player ChakraBall Status:",
       "\nX-Left= ",
@@ -333,7 +297,7 @@ class Game {
         this.enemy.charImages[1].height * this.enemy.scale,
       "\nHeight= ",
       this.enemy.charImages[1].height * this.enemy.scale
-    );
+    );*/
   }
 
   //Method to clear the screen everytime
@@ -353,7 +317,6 @@ class Game {
     this._checkPlayerAdvancedFront();
     this._checkEnemyAdvancedFront();
     this._checkCollisions();
-    //    this._checkCollisions();
     window.requestAnimationFrame(() => this._update());
   }
 
@@ -362,7 +325,7 @@ class Game {
     this._update();
     this.intervalEnemyIA = setInterval(() => {
       this._manageEnemyIA();
-    }, 6000);
+    }, 4000);
     this._update();
   }
 }

@@ -1,8 +1,8 @@
 class Enemy extends Player {
 
   moveLeft() {
-    //As long as the enemy is not cut by the left side we can move
-    //Added condition ableToAdvance to check if the fighters dont across each other
+    //As long as the enemy image is not cut by the left side we can move
+    //The condition ableToAdvance checks if the fighters dont across each other in the X asis
     if (
       Math.abs(this.x) - this.width - 15 >= 0 &&
       !this.chakraBall.moveInterval &&
@@ -14,7 +14,7 @@ class Enemy extends Player {
   }
 
   moveRight() {
-    //As long as the enemy is not cut by the left side we can move
+    //As long as the enemy image is not cut by the right side we can move
     if (
       Math.abs(this.x) + 15 <= canvas.width &&
       !this.chakraBall.moveInterval &&
