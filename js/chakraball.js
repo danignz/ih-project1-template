@@ -24,10 +24,10 @@ class ChakraBall {
   //The first one "moveIntervalWait" its to give the char enough time to finnish the animation of throwing the ball.
   //The second one "moveInterval" each fraction of time increases X position and auto stop itself where it reach time limit.
   //Each execution of moveInterval will cause to draw a different frame, due x its increasing and it will be readed by the Game method _drawChakraBall
-  _setStart(charPositionXAddedWidth, charPositionY) {
+  _setStart(initialXPosition, initialYPosition, summoner) {
     //Need to know the current position of char to paint the ball
-    this.x = charPositionXAddedWidth;
-    this.y = charPositionY;
+    this.x = initialXPosition;
+    this.y = initialYPosition;
     //Next vars needed to manage the moveInterval time limits, autofinnish painted ball when the variable reach a limit
     const limitTimes = 25;
     let i = 1;
@@ -36,7 +36,11 @@ class ChakraBall {
     this.moveIntervalWait = setInterval(() => {
       this.moveInterval = setInterval(() => {
         this._stopWait(); //Stop the first interval, only waits for one time. When the chars execute the throwing
-        this.x = this.x + 40;
+        if (summoner === "player"){
+          this.x = this.x + 40;
+        }else{
+          this.x = this.x - 40;
+        }
         if (i > limitTimes) {
           //When reach (limitTimes*100) seconds the interval stop itself (the ball acrossed the full width)
           this._stopMove();

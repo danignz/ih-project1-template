@@ -2,39 +2,45 @@ class Game {
   constructor(context) {
     this.ctx = context;
     this.player = new Player(100, 230, characters[0]);
-    this.enemy = new Enemy(-500, 230, characters[1]);
+    this.enemy = new Enemy(-900, 230, characters[1]);
     this.intervalEnemyIA = undefined;
   }
 
   //Method to draw the player at the screen
   _drawPlayer() {
-    this.ctx.drawImage(
-      this.player.charImages[0],
-      this.player.x,
-      this.player.y,
-      this.player.width,
-      this.player.height
-    );
+    //When an animation its running, dont have to draw the static player
+    if (!this.player.charAnimaton.actionInterval) {
+      this.ctx.drawImage(
+        this.player.charImages[0],
+        this.player.x,
+        this.player.y,
+        this.player.width,
+        this.player.height
+      );
+    }
   }
 
   //Method to draw the enemy at the screen
   _drawEnemy() {
-    //Scaling factor in the horizontal direction. A negative value flips pixels across the vertical axis.
-    this.ctx.scale(-1, 1);
-    //console.log(this.enemy.x, this.enemy.y);
-    //console.log(baseImgGB.height * 0.12);
-    //console.log(baseImgGB.width * 0.12);
-    this.ctx.drawImage(
-      this.enemy.charImages[0],
-      this.enemy.x,
-      this.enemy.y,
-      this.enemy.width,
-      this.enemy.height
-    );
-    // Reset current transformation matrix to the identity matrix
-    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-    //this.ctx.drawImage(baseImgGB, this.enemy.x, this.enemy.y, this.enemy.width, this.enemy.height);
-    //console.log(this.enemy.x, this.enemy.y);
+    //When an animation its running, dont have to draw the static enemy
+    if (!this.enemy.charAnimaton.actionInterval) {
+      //Scaling factor in the horizontal direction. A negative value flips pixels across the vertical axis.
+      this.ctx.scale(-1, 1);
+      //console.log(this.enemy.x, this.enemy.y);
+      //console.log(baseImgGB.height * 0.12);
+      //console.log(baseImgGB.width * 0.12);
+      this.ctx.drawImage(
+        this.enemy.charImages[0],
+        this.enemy.x,
+        this.enemy.y,
+        this.enemy.width,
+        this.enemy.height
+      );
+      // Reset current transformation matrix to the identity matrix
+      this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+      //this.ctx.drawImage(baseImgGB, this.enemy.x, this.enemy.y, this.enemy.width, this.enemy.height);
+      //console.log(this.enemy.x, this.enemy.y);
+    }
   }
 
   //Method to draw the ChakraBall
@@ -55,14 +61,36 @@ class Game {
     }
   }
 
+  //Method to draw the ChakraBall
+  _drawChakraBallE() {
+    //Only draw the ChakraBall if moveIntervalWait its undefined (means that its not a wait for the char animation) and
+    //if moveInterval its not undefined (that means that chakraball its running)
+    if (
+      this.enemy.chakraBall.moveInterval &&
+      !this.enemy.chakraBall.moveIntervalWait
+    ) {
+      this.ctx.drawImage(
+        this.enemy.charImages[1],
+        this.enemy.chakraBall.x,
+        this.enemy.chakraBall.y,
+        this.enemy.charImages[1].width * this.enemy.scale,
+        this.enemy.charImages[1].height * this.enemy.scale
+      );
+    }
+  }
+
   //Method to draw and Animation
   _drawAnimation() {
     //Only draw the animation if actionInterval its not undefined (that means that and animation its running)
     //The imagine to show everytime will depen of initFrame that its going to change everytime due a actionInterval that increases the freme everytime
     if (this.player.charAnimaton.actionInterval) {
-      this._clean();
-      this._drawEnemy();
-      this._drawChakraBall();
+      //  this._clean();
+      //    this._drawPlayer();
+      //    this._drawEnemy();
+      //  this._drawChakraBall();
+      //  this._drawChakraBallE();
+      //  this._drawAnimation();
+      this._drawAnimationE();
       this.ctx.drawImage(
         this.player.charImages[this.player.charAnimaton.initFrame],
         this.player.x,
@@ -70,6 +98,30 @@ class Game {
         this.player.width,
         this.player.height
       );
+    }
+  }
+
+  //Method to draw and Animation
+  _drawAnimationE() {
+    //Only draw the animation if actionInterval its not undefined (that means that and animation its running)
+    //The imagine to show everytime will depen of initFrame that its going to change everytime due a actionInterval that increases the freme everytime
+    if (this.enemy.charAnimaton.actionInterval) {
+      // this._clean();
+      //    this._drawPlayer();
+      //     this._drawEnemy();
+      //    this._drawChakraBall();
+      //   this._drawChakraBallE();
+      //   this._drawAnimation();
+      //     this._drawAnimationE();
+      this.ctx.scale(-1, 1);
+      this.ctx.drawImage(
+        this.enemy.charImages[this.enemy.charAnimaton.initFrame],
+        this.enemy.x,
+        this.enemy.y,
+        this.enemy.width,
+        this.enemy.height
+      );
+      this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     }
   }
 
@@ -100,7 +152,8 @@ class Game {
             //Invoke to _setStart method, it needs to know the coordinates of the char's current position, and add to the X-asis its width to be draw in the right place
             this.player.chakraBall._setStart(
               this.player.x + this.player.width,
-              this.player.y
+              this.player.y,
+              "player"
             );
           }
           break;
@@ -199,18 +252,21 @@ class Game {
 */
 
     if (
-      !this.player.chakraBall.moveInterval &&
-      !this.player.chakraBall.moveIntervalWait
+      !this.enemy.chakraBall.moveInterval &&
+      !this.enemy.chakraBall.moveIntervalWait
     ) {
-      this.player.charAnimaton._executeAnimation("special");
+      this.enemy.charAnimaton._executeAnimation("special");
       //Invoke to _setStart method, it needs to know the coordinates of the char's current position, and add to the X-asis its width to be draw in the right place
-      this.player.chakraBall._setStart(
-        this.player.x + this.player.width,
-        this.player.y
+      this.enemy.chakraBall._setStart(
+        Math.abs(this.enemy.x) - this.enemy.width,
+        this.enemy.y,
+        "enemy"
       );
     }
   }
+
   _checkCollisions() {
+    /*
     console.log(
       "Player Position Status:",
       "\nX-Left= ",
@@ -242,7 +298,7 @@ class Game {
       "\nHeight= ",
       this.enemy.height
     );
-
+*/
     console.log(
       "Player ChakraBall Status:",
       "\nX-Left= ",
@@ -291,9 +347,12 @@ class Game {
     this._drawPlayer();
     this._drawEnemy();
     this._drawChakraBall();
+    this._drawChakraBallE();
     this._drawAnimation();
+    this._drawAnimationE();
     this._checkPlayerAdvancedFront();
     this._checkEnemyAdvancedFront();
+    this._checkCollisions();
     //    this._checkCollisions();
     window.requestAnimationFrame(() => this._update());
   }
@@ -303,8 +362,7 @@ class Game {
     this._update();
     this.intervalEnemyIA = setInterval(() => {
       this._manageEnemyIA();
-      this._checkCollisions();
-    }, 4000);
+    }, 6000);
     this._update();
   }
 }
