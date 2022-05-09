@@ -12,14 +12,17 @@ class Player {
     this.charImages = charObject.imageSecuence;
     this.chakraBall = new ChakraBall();
     this.charAnimaton = new AnimationPlayer();
+    this.ableToAdvance = true;
   }
 
   moveRight() {
     //As long as the character is not cut by the right side we can move
+    //Added condition ableToAdvance to check if the fighters dont across each other
     if (
       this.x + 15 <= canvas.width - this.width &&
       !this.chakraBall.moveInterval &&
-      !this.chakraBall.moveIntervalWait
+      !this.chakraBall.moveIntervalWait && 
+      this.ableToAdvance === true
     ) {
       this.x = this.x + 15;
     }
