@@ -6,9 +6,9 @@ class Game {
     this.intervalEnemyIA = undefined;
   }
 
-  //Method to draw the player at the screen
+  //Method to draw the static player at the screen
   _drawPlayer() {
-    //When an animation its running, dont have to draw the static player
+    //When an animation its running, dont have to draw the static player. Not animation executing means an undefined value by default
     if (!this.player.charAnimaton.actionInterval) {
       this.ctx.drawImage(
         this.player.charImages[0],
@@ -22,9 +22,10 @@ class Game {
 
   //Method to draw the enemy at the screen
   _drawEnemy() {
-    //When an animation its running, dont have to draw the static enemy
+    //When an animation its running, dont have to draw the static enemy. Not animation executing means an undefined value by default
     if (!this.enemy.charAnimaton.actionInterval) {
       //Scaling factor in the horizontal direction. A negative value flips pixels across the vertical axis.
+      //Need to inverter the position of the enemy for the fighters see in front each other, due only there are png's images in one direction.
       this.ctx.scale(-1, 1);
       this.ctx.drawImage(
         this.enemy.charImages[0],
@@ -33,12 +34,12 @@ class Game {
         this.enemy.width,
         this.enemy.height
       );
-      // Reset current transformation matrix to the identity matrix
+      // Reset current transformation matrix to the identity matrix. Its needed to recover the default values of the horizontal axis to draw another elements at the screen.
       this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     }
   }
 
-  //Method to draw the ChakraBall
+  //Method to draw the player's ChakraBall
   _drawChakraBall() {
     //Only draw the ChakraBall if moveIntervalWait its undefined (means that its not a wait for the char animation) and
     //if moveInterval its not undefined (that means that chakraball its running)
@@ -56,9 +57,9 @@ class Game {
     }
   }
 
-  //Method to draw the ChakraBall
+  //Method to draw the enemy's ChakraBall
   _drawChakraBallE() {
-    //Only draw the ChakraBall if moveIntervalWait its undefined (means that its not a wait for the char animation) and
+    //Only draw the ChakraBall if moveIntervalWait its undefined (means that its not a wait for the enemy animation) and
     //if moveInterval its not undefined (that means that chakraball its running)
     if (
       this.enemy.chakraBall.moveInterval &&
@@ -76,10 +77,9 @@ class Game {
 
   //Method to draw a player animation
   _drawAnimation() {
-    //Only draw the animation if actionInterval its not undefined (that means that and animation its running)
-    //The imagine to show everytime will depen of initFrame that its going to change everytime due a actionInterval that increases the freme everytime
+    //Only draw the animation if actionInterval its not undefined (that means that an animation its running)
+    //The image to show will depen of the current initFrame that its going to change everytime due to the actionInterval that will increase the frame
     if (this.player.charAnimaton.actionInterval) {
-      this._drawAnimationE();
       this.ctx.drawImage(
         this.player.charImages[this.player.charAnimaton.initFrame],
         this.player.x,
@@ -92,8 +92,8 @@ class Game {
 
   //Method to draw a enemy animation
   _drawAnimationE() {
-    //Only draw the animation if actionInterval its not undefined (that means that and animation its running)
-    //The imagine to show everytime will depen of initFrame that its going to change everytime due a actionInterval that increases the freme everytime
+    //Only draw the animation if actionInterval its not undefined (that means that an animation its running)
+    //The image to show will depen of the current initFrame that its going to change everytime due to the actionInterval that will increase the frame
     if (this.enemy.charAnimaton.actionInterval) {
       this.ctx.scale(-1, 1);
       this.ctx.drawImage(
@@ -130,8 +130,9 @@ class Game {
             !this.player.chakraBall.moveInterval &&
             !this.player.chakraBall.moveIntervalWait
           ) {
+            //Plays the player's action animation linked to Chakraball throwing
             this.player.charAnimaton._executeAnimation("special");
-            //Invoke to _setStart method, it needs to know the coordinates of the char's current position, and add to the X-asis its width to be draw in the right place
+            //Invoke to _setStart method. It needs to know the coordinates of the char's current position and add to the X-asis its width to be draw in the right place
             this.player.chakraBall._setStart(
               this.player.x + this.player.width,
               this.player.y,
@@ -209,23 +210,68 @@ class Game {
     }
   }
 
+  //Method that controls the machine's IA
   _manageEnemyIA() {
-    //this.enemy.moveLeft();
-    //this.enemy.moveRight();
+    let randomAction = Math.floor(Math.random() * 10); // expected output: between 0-9;
 
-    //Only creates a new ChakraBall if both setInterval are undefined (that means that there are not another running in this moment)
-    //The moveIntervalWait manages the duration of char's animation before throwing the ball. Undefined means that there are not another running in this moment.
-    if (
-      !this.enemy.chakraBall.moveInterval &&
-      !this.enemy.chakraBall.moveIntervalWait
-    ) {
-      this.enemy.charAnimaton._executeAnimation("special");
-      //Invoke to _setStart method, it needs to know the coordinates of the char's current position, and add to the X-asis its width to be draw in the right place
-      this.enemy.chakraBall._setStart(
-        Math.abs(this.enemy.x) - this.enemy.width,
-        this.enemy.y,
-        "enemy"
-      );
+    switch (randomAction) {
+      case 0:
+        this.enemy.moveLeft();
+        this.enemy.moveLeft();
+        this.enemy.moveLeft();
+        this.enemy.moveLeft();
+        this.enemy.moveLeft();
+        break;
+      case 1:
+        this.enemy.moveRight();
+        this.enemy.moveRight();
+        this.enemy.moveRight();
+        this.enemy.moveRight();
+        this.enemy.moveRight();
+        break;
+      case 2:
+        this.enemy.moveUp();
+        this.enemy.moveUp();
+        this.enemy.moveUp();
+        this.enemy.moveUp();
+        this.enemy.moveUp();
+        break;
+      case 3:
+        this.enemy.moveDown();
+        this.enemy.moveDown();
+        this.enemy.moveDown();
+        this.enemy.moveDown();
+        this.enemy.moveDown();
+        break;
+      case 4:
+        this.enemy.charAnimaton._executeAnimation("punch");
+        break;
+      case 5:
+        this.enemy.charAnimaton._executeAnimation("kick");
+        break;
+      case 6:
+        this.enemy.charAnimaton._executeAnimation("energy");
+        break;
+      case 7:
+        this.enemy.charAnimaton._executeAnimation("intro");
+        break;
+      case 8:
+      case 9:
+        //Only creates a new ChakraBall if both setInterval are undefined (that means that there are not another running in this moment)
+        //The moveIntervalWait manages the duration of char's animation before throwing the ball. Undefined means that there are not another running in this moment.
+        if (
+          !this.enemy.chakraBall.moveInterval &&
+          !this.enemy.chakraBall.moveIntervalWait
+        ) {
+          this.enemy.charAnimaton._executeAnimation("special");
+          //Invoke to _setStart method, it needs to know the coordinates of the enemy's current position and add to the X-asis its width to be draw in the right place
+          this.enemy.chakraBall._setStart(
+            Math.abs(this.enemy.x) - this.enemy.width,
+            this.enemy.y,
+            "enemy"
+          );
+        }
+        break;
     }
   }
 
@@ -300,7 +346,7 @@ class Game {
     );*/
   }
 
-  //Method to clear the screen everytime
+  //Method to clean the screen everytime
   _clean() {
     this.ctx.clearRect(0, 0, 1000, 600);
   }
@@ -308,12 +354,12 @@ class Game {
   //Method to refresh the screen everytime
   _update() {
     this._clean();
-    this._drawPlayer();
     this._drawEnemy();
-    this._drawChakraBall();
+    this._drawPlayer();
     this._drawChakraBallE();
-    this._drawAnimation();
+    this._drawChakraBall();
     this._drawAnimationE();
+    this._drawAnimation();
     this._checkPlayerAdvancedFront();
     this._checkEnemyAdvancedFront();
     this._checkCollisions();
@@ -322,10 +368,10 @@ class Game {
 
   start() {
     this._assignControls();
-    this._update();
+    //When the game starts, the Enemy's IA is activated till the end of the game
     this.intervalEnemyIA = setInterval(() => {
       this._manageEnemyIA();
-    }, 4000);
+    }, 5000);
     this._update();
   }
 }
