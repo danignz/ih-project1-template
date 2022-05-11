@@ -212,7 +212,8 @@ class Game {
 
   //Method that controls the machine's IA
   _manageEnemyIA() {
-    let randomAction = Math.floor(Math.random() * 10); // expected output: between 0-9;
+    //let randomAction = Math.floor(Math.random() * 10); // expected output: between 0-9;
+    let randomAction = 8;
 
     switch (randomAction) {
       case 0:
@@ -276,7 +277,36 @@ class Game {
   }
 
   _checkCollisions() {
-    /*
+    
+    //This if statement checks if two chakraballs collides with each other. If only for visual purpose.
+    //The first condition checks if the enemy's chakraball completely through the player's ball. Check x asis
+    if (
+        (this.enemy.chakraBall.x - this.enemy.charImages[1].width * this.enemy.scale - this.player.chakraBall.x < 1) 
+        &&
+        //These condition checks if the enemy's chakraball upper corner its inside the player's ball. Check y asis    
+        (
+          ((this.enemy.chakraBall.y <= this.player.chakraBall.y) &&
+          (this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale >= this.player.chakraBall.y))
+          //These condition checks if the enemy's chakraball botton corner its inside the player's ball. Check y asis    
+          ||
+          ((this.enemy.chakraBall.y <= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale) &&
+          (this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale >= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale))
+          ||        
+          //These condition checks if the player's chakraball its smaller than enemy's ball and it across inside it. Check y asis
+          ((this.enemy.chakraBall.y <= this.player.chakraBall.y) &&
+          (this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale >= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale))
+          //These condition checks if the enemy's chakraball its smaller than player's ball and it across inside it. Check y asis
+          || 
+          ((this.enemy.chakraBall.y >= this.player.chakraBall.y) &&
+          (this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale <= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale))
+        )
+    ) {
+      //if they collide the animation stops
+      this.player.chakraBall._stopMove();
+      this.enemy.chakraBall._stopMove();
+    }
+
+/*
     console.log(
       "Player Position Status:",
       "\nX-Left= ",
@@ -332,7 +362,7 @@ class Game {
       "\nX-Left= ",
       this.enemy.chakraBall.x,
       "\nX-Right=",
-      this.enemy.chakraBall.x +
+      this.enemy.chakraBall.x -
         this.enemy.charImages[1].width * this.enemy.scale,
       "\nWidth= ",
       this.enemy.charImages[1].width * this.enemy.scale,
@@ -343,7 +373,8 @@ class Game {
         this.enemy.charImages[1].height * this.enemy.scale,
       "\nHeight= ",
       this.enemy.charImages[1].height * this.enemy.scale
-    );*/
+    );
+    */
   }
 
   //Method to clean the screen everytime
@@ -371,7 +402,7 @@ class Game {
     //When the game starts, the Enemy's IA is activated till the end of the game
     this.intervalEnemyIA = setInterval(() => {
       this._manageEnemyIA();
-    }, 5000);
+    }, 3000);
     this._update();
   }
 }
