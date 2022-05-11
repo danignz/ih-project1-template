@@ -12,6 +12,8 @@ class Player {
     this.charAnimaton = new AnimationPlayer();
     this.ableToAdvance = true;
     this.marker = marker;
+    this.health = 100;
+    this.strength = 3;
   }
 
   moveRight() {
@@ -63,4 +65,21 @@ class Player {
       this.y = this.y + 15;
     }
   }
+
+  punchAttack(){
+    return this.strength;
+  }
+
+  kickAttack(){
+    return this.strength*2;
+  }
+
+  specialAttack(){
+    return this.strength*3;
+  }
+
+  receiveDamage(damage){
+    this.health = this.health - damage;
+  }
+
 }

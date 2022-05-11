@@ -130,7 +130,7 @@ for (let i = 0; i < characters.length; i++) {
   characters[i].imageSecuence[39].src = `./img/${characters[i].name}/_select.png`;
 }
 
-//Load all the images for manager markers
+//Load all the images to manage the markers
 let playerMarkerImg = [];
 let enemyMarkerImg = [];
 

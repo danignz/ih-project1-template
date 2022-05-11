@@ -36,16 +36,16 @@ class ChakraBall {
       this.moveInterval = setInterval(() => {
         this._stopWait(); //Stop the first interval, only wait for one time till the char execute the throwing animation
         if (summoner === "player"){ //depen on if the summoner is the player or the enemy will move the ball in the correct direction
-          this.x = this.x + 50;
+          this.x = this.x + 60;
         }else{
-          this.x = this.x - 50;
+          this.x = this.x - 60;
         }
         if (i > limitTimes) {
           //When reach (limitTimes*100) seconds, the interval stop itself (the ball acrossed the full width)
           this._stopMove();
         }
         i++;
-      }, 100);
+      }, 50);
     }, 1000);
   }
 }
