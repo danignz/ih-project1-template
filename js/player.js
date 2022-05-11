@@ -1,5 +1,5 @@
 class Player {
-  constructor(x, y, charObject) {
+  constructor(x, y, charObject,marker) {
     this.x = x;
     this.y = y;
     //Due the images do not have the same size, it is necessary to scale depending on each character
@@ -11,6 +11,7 @@ class Player {
     this.chakraBall = new ChakraBall();
     this.charAnimaton = new AnimationPlayer();
     this.ableToAdvance = true;
+    this.marker = marker;
   }
 
   moveRight() {

@@ -1,5 +1,5 @@
 //Create height limit where the player cannot move due the markers space
-const screenHeightLimit = 50;
+const screenHeightLimit = 35;
 
 //The array contain all the avariable chars and their imagenes
 const characters = [
@@ -129,3 +129,63 @@ for (let i = 0; i < characters.length; i++) {
   characters[i].imageSecuence[39] = new Image();
   characters[i].imageSecuence[39].src = `./img/${characters[i].name}/_select.png`;
 }
+
+//Load all the images for manager markers
+let playerMarkerImg = [];
+let enemyMarkerImg = [];
+
+playerMarkerImg[0] = new Image();
+playerMarkerImg[0].src = `./img/LifeBar/playerbar0.png`;
+enemyMarkerImg[0] = new Image();
+enemyMarkerImg[0].src = `./img/LifeBar/enemybar0.png`;
+
+playerMarkerImg[1] = new Image();
+playerMarkerImg[1].src = `./img/LifeBar/playerbar10.png`;
+enemyMarkerImg[1] = new Image();
+enemyMarkerImg[1].src = `./img/LifeBar/enemybar10.png`;
+
+playerMarkerImg[2] = new Image();
+playerMarkerImg[2].src = `./img/LifeBar/playerbar20.png`;
+enemyMarkerImg[2] = new Image();
+enemyMarkerImg[2].src = `./img/LifeBar/enemybar20.png`;
+
+playerMarkerImg[3] = new Image();
+playerMarkerImg[3].src = `./img/LifeBar/playerbar30.png`;
+enemyMarkerImg[3] = new Image();
+enemyMarkerImg[3].src = `./img/LifeBar/enemybar30.png`;
+
+playerMarkerImg[4] = new Image();
+playerMarkerImg[4].src = `./img/LifeBar/playerbar40.png`;
+enemyMarkerImg[4] = new Image();
+enemyMarkerImg[4].src = `./img/LifeBar/enemybar40.png`;
+
+playerMarkerImg[5] = new Image();
+playerMarkerImg[5].src = `./img/LifeBar/playerbar50.png`;
+enemyMarkerImg[5] = new Image();
+enemyMarkerImg[5].src = `./img/LifeBar/enemybar50.png`;
+
+playerMarkerImg[6] = new Image();
+playerMarkerImg[6].src = `./img/LifeBar/playerbar60.png`;
+enemyMarkerImg[6] = new Image();
+enemyMarkerImg[6].src = `./img/LifeBar/enemybar60.png`;
+
+playerMarkerImg[7] = new Image();
+playerMarkerImg[7].src = `./img/LifeBar/playerbar70.png`;
+enemyMarkerImg[7] = new Image();
+enemyMarkerImg[7].src = `./img/LifeBar/enemybar70.png`;
+
+playerMarkerImg[8] = new Image();
+playerMarkerImg[8].src = `./img/LifeBar/playerbar80.png`;
+enemyMarkerImg[8] = new Image();
+enemyMarkerImg[8].src = `./img/LifeBar/enemybar80.png`;
+
+playerMarkerImg[9] = new Image();
+playerMarkerImg[9].src = `./img/LifeBar/playerbar90.png`;
+enemyMarkerImg[9] = new Image();
+enemyMarkerImg[9].src = `./img/LifeBar/enemybar90.png`;
+
+playerMarkerImg[10] = new Image();
+playerMarkerImg[10].src = `./img/LifeBar/playerbar100.png`;
+enemyMarkerImg[10] = new Image();
+enemyMarkerImg[10].src = `./img/LifeBar/enemybar100.png`;
+

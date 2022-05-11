@@ -1,8 +1,8 @@
 class Game {
   constructor(context) {
     this.ctx = context;
-    this.player = new Player(300, 230, characters[0]);
-    this.enemy = new Enemy(-700, 230, characters[1]);
+    this.player = new Player(300, 230, characters[0],playerMarkerImg);
+    this.enemy = new Enemy(-700, 230, characters[1],enemyMarkerImg);
     this.intervalEnemyIA = undefined;
   }
 
@@ -438,6 +438,25 @@ class Game {
     */
   }
 
+  //Method to draw the markers
+  _drawMarkers() {
+      this.ctx.drawImage(
+        this.player.marker[10],
+        0,
+        0,
+        350,
+        35
+      );
+
+      this.ctx.drawImage(
+        this.enemy.marker[10],
+        650,
+        0,
+        350,
+        35
+      );
+  }
+
   //Method to clean the screen everytime
   _clean() {
     this.ctx.clearRect(0, 0, 1000, 600);
@@ -455,6 +474,7 @@ class Game {
     this._checkPlayerAdvancedFront();
     this._checkEnemyAdvancedFront();
     this._checkCollisions();
+    this._drawMarkers();
     window.requestAnimationFrame(() => this._update());
   }
 
