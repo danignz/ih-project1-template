@@ -183,6 +183,9 @@ class Game {
             this.player.charAnimaton.actionInterval === undefined
           ) {
             this.player.charAnimaton._executeAnimation("punch");
+            if(this.enemy.canReceiveDamage === true){
+              this.enemy.receiveDamage(this.player.punchAttack());
+            }
           }
           break;
         case "KeyS":
@@ -193,6 +196,9 @@ class Game {
             this.player.charAnimaton.actionInterval === undefined
           ) {
             this.player.charAnimaton._executeAnimation("kick");
+            if(this.enemy.canReceiveDamage === true){
+              this.enemy.receiveDamage(this.player.kickAttack());
+            }
           }
           break;
         case "KeyD":
@@ -247,7 +253,7 @@ class Game {
 
   //Method that controls the machine's IA
   _manageEnemyIA() {
-    let randomAction = Math.floor(Math.random() * 10); // expected output: between 0-9;
+    let randomAction = Math.floor(Math.random() * 15); // expected output: between 0-14;
     //let randomAction = 8;
 
     switch (randomAction) {
@@ -280,19 +286,30 @@ class Game {
         this.enemy.moveDown();
         break;
       case 4:
-        this.enemy.charAnimaton._executeAnimation("punch");
-        break;
       case 5:
-        this.enemy.charAnimaton._executeAnimation("kick");
-        break;
       case 6:
-        this.enemy.charAnimaton._executeAnimation("energy");
+        this.enemy.charAnimaton._executeAnimation("punch");
+        if(this.player.canReceiveDamage === true){
+          this.player.receiveDamage(this.enemy.punchAttack());
+        }
         break;
       case 7:
-        this.enemy.charAnimaton._executeAnimation("intro");
-        break;
       case 8:
       case 9:
+        this.enemy.charAnimaton._executeAnimation("kick");
+        if(this.player.canReceiveDamage === true){
+          this.player.receiveDamage(this.enemy.kickAttack());
+        }
+        break;
+      case 10:
+        this.enemy.charAnimaton._executeAnimation("energy");
+        break;
+      case 11:
+        this.enemy.charAnimaton._executeAnimation("intro");
+        break;
+      case 12:
+      case 13:
+      case 14:
         //Only creates a new ChakraBall if both setInterval are undefined (that means that there are not another running in this moment)
         //The moveIntervalWait manages the duration of char's animation before throwing the ball. Undefined means that there are not another running in this moment.
         if (
@@ -312,7 +329,11 @@ class Game {
   }
 
   _checkCollisions() {
-    
+    //console.log(this.player.canReceiveDamage);
+    //console.log(this.enemy.canReceiveDamage);
+    this.player.canReceiveDamage = false;
+    this.enemy.canReceiveDamage = false;     
+
     //Two chakraballs collides with each other. If only for visual purpose.
     //The first condition checks if the enemy's chakraball completely through the player's ball. Check x asis
     if (
@@ -432,6 +453,68 @@ class Game {
     {
       this._playShowGameOver();
     }
+
+    //Checks if player and enemy can fight
+    if (
+      //check if player if close to the enemy in x asis
+      (this.player.ableToAdvance === false && this.enemy.ableToAdvance === false)
+    
+      &&
+      //check if player's chakraball across inside the enemy in y asis
+      (
+       ((this.enemy.y <= this.player.y + 60) &&
+       (this.enemy.y + this.enemy.height >= this.player.y + 60))
+       //These condition checks if the player's chakraball botton corner its inside the enemy. Check y asis 
+       ||
+       ((this.enemy.y <= this.player.y + this.player.charImages[0].height * this.player.scale - 60) &&
+       (this.enemy.y + this.enemy.height >= this.player.y + this.player.charImages[0].height * this.player.scale - 60))
+       //These condition checks if the player's chakraball upper corner its inside the enemy. Check y asis 
+       ||        
+       ((this.enemy.y <= this.player.y + 60) &&
+       (this.enemy.y + this.enemy.height >= this.player.y + this.player.charImages[0].height * this.player.scale - 60))
+       //These condition checks if the player's chakraball its inside the enemy's body. Check y asis 
+       || 
+       ((this.enemy.y >= this.player.y + 60) &&
+       (this.enemy.y + this.enemy.height <= this.player.y + this.player.charImages[0].height * this.player.scale - 60))
+       //These condition checks if the enemy's body its inside the chakraball. Its an hipotetic case, because chars by default are bigger than chakraball. Check y asis 
+      )
+     )
+     {
+      /*
+       //Save the collition Point to draw Explosion Animation
+       this.player.chakraBall.lastExplosionX = this.player.chakraBall.x;
+       this.player.chakraBall.lastExplosionY = this.player.chakraBall.y;
+
+       //This means that chakraball hurts enemy
+       this.player.chakraBall._stopMove();
+       this.enemy.receiveDamage(this.player.specialAttack());
+       this.player.chakraBall.chakraExplosionAni._executeAnimationExplosion();
+      
+       */
+       this.player.canReceiveDamage = true;
+       this.enemy.canReceiveDamage = true;     
+   //    console.log(this.player.canReceiveDamage);
+    //   console.log(this.enemy.canReceiveDamage);
+     }
+
+   //Check if GameOver
+   if (this.player.health <= 0 || this.enemy.health <= 0 ) 
+   {
+     this._playShowGameOver();
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+    
 /*
     console.log(
       "Player Position Status:",
@@ -653,7 +736,7 @@ class Game {
     //When the game starts, the Enemy's IA is activated till the end of the game
     this.intervalEnemyIA = setInterval(() => {
       this._manageEnemyIA();
-    }, 2000);
+    }, 700);
     this._update();
   }
 }

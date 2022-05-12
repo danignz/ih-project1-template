@@ -12,6 +12,7 @@ class Player {
     this.charAnimaton = new AnimationPlayer();
     this.ableToAdvance = true;
     this.marker = marker;
+    this.canReceiveDamage = undefined;
     this.health = 99;
     this.strength = 5;
   }
@@ -67,15 +68,15 @@ class Player {
   }
 
   punchAttack(){
-    return this.strength*1.3;
+    return this.strength*2.1;
   }
 
   kickAttack(){
-    return this.strength*1.5;
+    return this.strength*2.3;
   }
 
   specialAttack(){
-    return this.strength*2;
+    return this.strength*3;
   }
 
   receiveDamage(damage){
