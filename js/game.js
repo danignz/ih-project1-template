@@ -633,7 +633,7 @@ class Game {
     //When the game starts, the Enemy's IA is activated till the end of the game
     this.intervalEnemyIA = setInterval(() => {
       this._manageEnemyIA();
-    }, 1000);
+    }, 2000);
     this._update();
   }
 }
