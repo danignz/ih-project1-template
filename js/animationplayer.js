@@ -36,7 +36,7 @@ class AnimationPlayer {
       case "special":
         this.initFrame = 32;
         this.lasttFrame = 37;
-        this.animationTime = 200;
+        this.animationTime = 180;
         break;
       default:
     }

@@ -2,7 +2,7 @@ class Game {
   constructor(context) {
     this.ctx = context;
     this.player = new Player(100, 230, characters[0],playerMarkerImg);
-    this.enemy = new Enemy(-900, 230, characters[1],enemyMarkerImg);
+    this.enemy = new Enemy(-900, 230, characters[2],enemyMarkerImg);
     this.intervalEnemyIA = undefined;
     this.intervalGameOver = undefined;
     this.intervalWaitGameOver = undefined;
@@ -130,6 +130,14 @@ class Game {
         this.player.chakraBall.lastExplosionY,
         this.player.width,
         this.player.height
+      );
+    }else if (this.enemy.chakraBall.chakraExplosionAni.isExploding) {
+      this.ctx.drawImage(
+        this.enemy.chakraBall.explosionImages[this.enemy.chakraBall.chakraExplosionAni.initFrame],
+        this.enemy.chakraBall.lastExplosionX,
+        this.enemy.chakraBall.lastExplosionY,
+        this.enemy.width,
+        this.enemy.height
       );
     }
   }
@@ -330,7 +338,7 @@ class Game {
     ) {
 
       //Save the collition Point to draw Explosion Animation
-      this.player.chakraBall.lastExplosionX = this.player.chakraBall.x;
+      this.player.chakraBall.lastExplosionX = this.player.chakraBall.x + this.player.charImages[1].width * this.player.scale;
       this.player.chakraBall.lastExplosionY = this.player.chakraBall.y;
 
       //if it collides the animation will stop
@@ -366,9 +374,15 @@ class Game {
        )
       )
       {
+          
+        //Save the collition Point to draw Explosion Animation
+        this.player.chakraBall.lastExplosionX = this.player.chakraBall.x;
+        this.player.chakraBall.lastExplosionY = this.player.chakraBall.y;
+
         //This means that chakraball hurts enemy
         this.player.chakraBall._stopMove();
         this.enemy.receiveDamage(this.player.specialAttack());
+        this.player.chakraBall.chakraExplosionAni._executeAnimationExplosion();
       }
 
     //Check if GameOver
@@ -402,9 +416,15 @@ class Game {
        )
       )
       {
+
+        //Save the collition Point to draw Explosion Animation
+        this.enemy.chakraBall.lastExplosionX = this.enemy.chakraBall.x - this.player.width;
+        this.enemy.chakraBall.lastExplosionY = this.enemy.chakraBall.y;
+
         //This means that chakraball hurts player
         this.enemy.chakraBall._stopMove();
         this.player.receiveDamage(this.enemy.specialAttack());
+        this.enemy.chakraBall.chakraExplosionAni._executeAnimationExplosion();
       }
 
     //Check if GameOver
