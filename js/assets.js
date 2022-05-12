@@ -189,3 +189,10 @@ playerMarkerImg[10].src = `./img/LifeBar/playerbar100.png`;
 enemyMarkerImg[10] = new Image();
 enemyMarkerImg[10].src = `./img/LifeBar/enemybar100.png`;
 
+//Load images to manage Game Over
+
+const win = new Image();
+win.src = './img/GameOver/win.png';
+
+const lose = new Image();
+lose.src = './img/GameOver/lose.png';

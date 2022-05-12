@@ -5,19 +5,20 @@ class Game {
     this.enemy = new Enemy(-700, 230, characters[1],enemyMarkerImg);
     this.intervalEnemyIA = undefined;
     this.intervalGameOver = undefined;
+    this.intervalWaitGameOver = undefined;
   }
 
   //Method to draw the static player at the screen
   _drawPlayer() {
     //When an animation its running, dont have to draw the static player. Not animation executing means an undefined value by default
     if (!this.player.charAnimaton.actionInterval) {
-      let frameToSgow = 0;
+      let frameToShow = 0;
       //if player dies show other image
       if(this.player.health<=0){
-        frameToSgow = 2;
+        frameToShow = 2;
       }
       this.ctx.drawImage(
-        this.player.charImages[frameToSgow],
+        this.player.charImages[frameToShow],
         this.player.x,
         this.player.y,
         this.player.width,
@@ -30,16 +31,16 @@ class Game {
   _drawEnemy() {
     //When an animation its running, dont have to draw the static enemy. Not animation executing means an undefined value by default
     if (!this.enemy.charAnimaton.actionInterval) {
-      let frameToSgow = 0;
+      let frameToShow = 0;
       //if enemy dies show other image
       if(this.enemy.health<=0){
-        frameToSgow = 2;
+        frameToShow = 2;
       }
       //Scaling factor in the horizontal direction. A negative value flips pixels across the vertical axis.
       //Need to inverter the position of the enemy for the fighters see in front each other, due only there are png's images in one direction.
       this.ctx.scale(-1, 1);
       this.ctx.drawImage(
-        this.enemy.charImages[frameToSgow],
+        this.enemy.charImages[frameToShow],
         this.enemy.x,
         this.enemy.y,
         this.enemy.width,
@@ -346,9 +347,13 @@ class Game {
         //This means that chakraball hurts enemy
         this.player.chakraBall._stopMove();
         this.enemy.receiveDamage(this.player.specialAttack());
-        console.log(this.enemy.health);
       }
 
+    //Check if GameOver
+    if (this.player.health <= 0 || this.enemy.health <= 0 ) 
+    {
+      this._playShowGameOver();
+    }
 
     //Player collides with a chakraball
     if (
@@ -378,16 +383,13 @@ class Game {
         //This means that chakraball hurts player
         this.enemy.chakraBall._stopMove();
         this.player.receiveDamage(this.enemy.specialAttack());
-        console.log(this.player.health);
       }
 
-      if (this.player.health <= 0 || this.enemy.health <= 0 ) {  
-        this.intervalGameOver = setInterval(() => {
-          clearInterval(this.intervalGameOver);
-        //    this.gameOver();
-        }, 10000);
-      }
-
+    //Check if GameOver
+    if (this.player.health <= 0 || this.enemy.health <= 0 ) 
+    {
+      this._playShowGameOver();
+    }
 /*
     console.log(
       "Player Position Status:",
@@ -533,12 +535,48 @@ class Game {
       }
   }
 
-  //Manage the game when its over
-  gameOver() {
+  _playShowGameOver(){
+    //stops IA
     clearInterval(this.intervalEnemyIA);
-    clearInterval(this.intervalGameOver);
-    const losePage = document.getElementById('lose-page');
-    losePage.style = "display: flex";
+    //waits to end current animation before to draw 
+    this.intervalWaitGameOver = setInterval(() => {
+      clearInterval(this.intervalWaitGameOver);
+      this._clean();
+      this._drawEnemy();
+      this._drawPlayer();
+      this._drawMarkers('player');
+      this._drawMarkers('enemy');
+
+      if(this.player.health <= 0){
+        this.ctx.drawImage(
+            lose,
+            350,
+            100,
+            300,
+            300
+        );
+      }else{
+        this.ctx.drawImage(
+            win,
+            350,
+            100,
+            300,
+            300
+        );
+      }
+
+      this.intervalGameOver = setInterval(() => {
+        clearInterval(this.intervalGameOver);
+        this._gameOver();
+      }, 7000);
+
+    }, 1000);
+  }
+
+  //Manage the game when its over
+  _gameOver() {
+    const finalPage = document.getElementById('final-page');
+    finalPage.style = "display: flex";
     const canvas = document.getElementById('canvas');
     canvas.style = "display: none;"
   }
@@ -562,7 +600,9 @@ class Game {
     this._checkCollisions();
     this._drawMarkers('player');
     this._drawMarkers('enemy');
-    window.requestAnimationFrame(() => this._update());
+    if (this.player.health > 0 && this.enemy.health > 0){
+      window.requestAnimationFrame(() => this._update());
+    }
   }
 
   start() {
@@ -570,7 +610,7 @@ class Game {
     //When the game starts, the Enemy's IA is activated till the end of the game
     this.intervalEnemyIA = setInterval(() => {
       this._manageEnemyIA();
-    }, 4000);
+    }, 6000);
     this._update();
   }
 }
