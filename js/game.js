@@ -1,8 +1,8 @@
 class Game {
   constructor(context) {
     this.ctx = context;
-    this.player = new Player(300, 230, characters[0],playerMarkerImg);
-    this.enemy = new Enemy(-700, 230, characters[1],enemyMarkerImg);
+    this.player = new Player(100, 230, characters[0],playerMarkerImg);
+    this.enemy = new Enemy(-900, 230, characters[1],enemyMarkerImg);
     this.intervalEnemyIA = undefined;
     this.intervalGameOver = undefined;
     this.intervalWaitGameOver = undefined;
@@ -119,6 +119,21 @@ class Game {
     }
   }
 
+  //Method to draw a explosion animation
+  _drawExplosionAnimation() {
+    //Only draw the animation if actionInterval its not undefined (that means that an animation its running)
+    //The image to show will depen of the current initFrame that its going to change everytime due to the actionInterval that will increase the frame
+    if (this.player.chakraBall.chakraExplosionAni.isExploding) {
+      this.ctx.drawImage(
+        this.player.chakraBall.explosionImages[this.player.chakraBall.chakraExplosionAni.initFrame],
+        this.player.chakraBall.lastExplosionX,
+        this.player.chakraBall.lastExplosionY,
+        this.player.width,
+        this.player.height
+      );
+    }
+  }
+
   //keyboard controls
   _assignControls() {
     document.addEventListener("keydown", (event) => {
@@ -224,8 +239,8 @@ class Game {
 
   //Method that controls the machine's IA
   _manageEnemyIA() {
-    //let randomAction = Math.floor(Math.random() * 10); // expected output: between 0-9;
-    let randomAction = 8;
+    let randomAction = Math.floor(Math.random() * 10); // expected output: between 0-9;
+    //let randomAction = 8;
 
     switch (randomAction) {
       case 0:
@@ -313,9 +328,16 @@ class Game {
           (this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale <= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale))
         )
     ) {
+
+      //Save the collition Point to draw Explosion Animation
+      this.player.chakraBall.lastExplosionX = this.player.chakraBall.x;
+      this.player.chakraBall.lastExplosionY = this.player.chakraBall.y;
+
       //if it collides the animation will stop
       this.player.chakraBall._stopMove();
       this.enemy.chakraBall._stopMove();
+      this.player.chakraBall.chakraExplosionAni._executeAnimationExplosion();
+
     }
 
 
@@ -600,6 +622,7 @@ class Game {
     this._checkCollisions();
     this._drawMarkers('player');
     this._drawMarkers('enemy');
+    this._drawExplosionAnimation();
     if (this.player.health > 0 && this.enemy.health > 0){
       window.requestAnimationFrame(() => this._update());
     }
@@ -610,7 +633,7 @@ class Game {
     //When the game starts, the Enemy's IA is activated till the end of the game
     this.intervalEnemyIA = setInterval(() => {
       this._manageEnemyIA();
-    }, 6000);
+    }, 1000);
     this._update();
   }
 }

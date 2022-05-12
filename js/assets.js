@@ -196,3 +196,23 @@ win.src = './img/GameOver/win.png';
 
 const lose = new Image();
 lose.src = './img/GameOver/lose.png';
+
+const explosionSequence = [];
+
+explosionSequence[0] = new Image();
+explosionSequence[0].src = `./img/Others/explosion1.png`;
+
+explosionSequence[1] = new Image();
+explosionSequence[1].src = `./img/Others/explosion2.png`;
+
+explosionSequence[2] = new Image();
+explosionSequence[2].src = `./img/Others/explosion3.png`;
+
+explosionSequence[3] = new Image();
+explosionSequence[3].src = `./img/Others/explosion4.png`;
+
+explosionSequence[4] = new Image();
+explosionSequence[4].src = `./img/Others/explosion5.png`;
+
+explosionSequence[5] = new Image();
+explosionSequence[5].src = `./img/Others/explosion6.png`;
