@@ -15,6 +15,8 @@ class Player {
     this.canReceiveDamage = undefined;
     this.health = 99;
     this.strength = 5;
+    this.stateImg = 0;
+    this.imgInterval = undefined;
   }
 
   moveRight() {
@@ -28,6 +30,7 @@ class Player {
       this.ableToAdvance === true
     ) {
       this.x = this.x + 15;
+      this.stateImg = 31;
     }
   }
 
@@ -40,6 +43,7 @@ class Player {
       !this.chakraBall.moveIntervalWait
     ) {
       this.x = this.x - 15;
+      this.stateImg = 24;
     }
   }
 
@@ -52,6 +56,7 @@ class Player {
       !this.chakraBall.moveIntervalWait
     ) {
       this.y = this.y - 15;
+      this.stateImg = 38;
     }
   }
 
@@ -64,6 +69,7 @@ class Player {
       !this.chakraBall.moveIntervalWait
     ) {
       this.y = this.y + 15;
+      this.stateImg = 4;
     }
   }
 

@@ -11,6 +11,7 @@ class Enemy extends Player {
       this.ableToAdvance === true
     ) {
       this.x = this.x + 15;
+      this.stateImg = 31;
     }
   }
 
@@ -23,6 +24,7 @@ class Enemy extends Player {
       !this.chakraBall.moveIntervalWait
     ) {
       this.x = this.x - 15;
+      this.stateImg = 24;
     }
   }
 }

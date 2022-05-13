@@ -49,7 +49,7 @@ class ChakraBall {
           this._stopMove();
         }
         i++;
-      }, 80);
-    }, 800);
+      }, 90);
+    }, 790);
   }
 }

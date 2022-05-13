@@ -5,7 +5,7 @@ const screenHeightLimit = 35;
 const characters = [
   { name: "GogetaBlue", scale: 0.12, imageSecuence: [] },
   { name: "Cell", scale: 0.15, imageSecuence: [] },
-  { name: "Jiren", scale: 0.13, imageSecuence: [] },
+  { name: "Jiren", scale: 0.18, imageSecuence: [] },
 ];
 
 //Load all the images for every char

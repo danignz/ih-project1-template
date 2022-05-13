@@ -1,24 +1,21 @@
 class Game {
   constructor(context) {
     this.ctx = context;
-    this.player = new Player(100, 230, characters[0],playerMarkerImg);
-    this.enemy = new Enemy(-900, 230, characters[2],enemyMarkerImg);
+    this.player = new Player(100, 230, characters[2],playerMarkerImg);
+    this.enemy = new Enemy(-900, 230, characters[1],enemyMarkerImg);
     this.intervalEnemyIA = undefined;
     this.intervalGameOver = undefined;
     this.intervalWaitGameOver = undefined;
+    this.imgInterval = undefined;
   }
 
   //Method to draw the static player at the screen
   _drawPlayer() {
     //When an animation its running, dont have to draw the static player. Not animation executing means an undefined value by default
     if (!this.player.charAnimaton.actionInterval) {
-      let frameToShow = 0;
-      //if player dies show other image
-      if(this.player.health<=0){
-        frameToShow = 2;
-      }
+
       this.ctx.drawImage(
-        this.player.charImages[frameToShow],
+        this.player.charImages[this.player.stateImg],
         this.player.x,
         this.player.y,
         this.player.width,
@@ -31,16 +28,11 @@ class Game {
   _drawEnemy() {
     //When an animation its running, dont have to draw the static enemy. Not animation executing means an undefined value by default
     if (!this.enemy.charAnimaton.actionInterval) {
-      let frameToShow = 0;
-      //if enemy dies show other image
-      if(this.enemy.health<=0){
-        frameToShow = 2;
-      }
       //Scaling factor in the horizontal direction. A negative value flips pixels across the vertical axis.
       //Need to inverter the position of the enemy for the fighters see in front each other, due only there are png's images in one direction.
       this.ctx.scale(-1, 1);
       this.ctx.drawImage(
-        this.enemy.charImages[frameToShow],
+        this.enemy.charImages[this.enemy.stateImg],
         this.enemy.x,
         this.enemy.y,
         this.enemy.width,
@@ -185,6 +177,8 @@ class Game {
             this.player.charAnimaton._executeAnimation("punch");
             if(this.enemy.canReceiveDamage === true){
               this.enemy.receiveDamage(this.player.punchAttack());
+              //sets hurt image
+              this.enemy.stateImg = 11;
             }
           }
           break;
@@ -198,6 +192,8 @@ class Game {
             this.player.charAnimaton._executeAnimation("kick");
             if(this.enemy.canReceiveDamage === true){
               this.enemy.receiveDamage(this.player.kickAttack());
+              //sets hurt image
+              this.enemy.stateImg = 11;
             }
           }
           break;
@@ -291,6 +287,8 @@ class Game {
         this.enemy.charAnimaton._executeAnimation("punch");
         if(this.player.canReceiveDamage === true){
           this.player.receiveDamage(this.enemy.punchAttack());
+          //sets hurt image
+          this.player.stateImg = 11;
         }
         break;
       case 7:
@@ -299,6 +297,8 @@ class Game {
         this.enemy.charAnimaton._executeAnimation("kick");
         if(this.player.canReceiveDamage === true){
           this.player.receiveDamage(this.enemy.kickAttack());
+          //sets hurt image
+          this.player.stateImg = 11;
         }
         break;
       case 10:
@@ -404,13 +404,19 @@ class Game {
         this.player.chakraBall._stopMove();
         this.enemy.receiveDamage(this.player.specialAttack());
         this.player.chakraBall.chakraExplosionAni._executeAnimationExplosion();
+        //sets hurt image
+        this.enemy.stateImg = 11;
       }
 
-    //Check if GameOver
-    if (this.player.health <= 0 || this.enemy.health <= 0 ) 
-    {
-      this._playShowGameOver();
-    }
+      //Check if GameOver
+      //if player dies show other image
+      if(this.player.health <= 0){
+       this.player.stateImg = 2;
+       this._playShowGameOver();
+      } else if (this.enemy.health <= 0){  //if enemy dies show other image
+        this.enemy.stateImg = 2;
+        this._playShowGameOver();
+      }
 
     //Player collides with a chakraball
     if (
@@ -446,13 +452,19 @@ class Game {
         this.enemy.chakraBall._stopMove();
         this.player.receiveDamage(this.enemy.specialAttack());
         this.enemy.chakraBall.chakraExplosionAni._executeAnimationExplosion();
+        //sets hurt image
+        this.player.stateImg = 11;
       }
 
-    //Check if GameOver
-    if (this.player.health <= 0 || this.enemy.health <= 0 ) 
-    {
-      this._playShowGameOver();
-    }
+      //Check if GameOver
+      //if player dies show other image
+      if(this.player.health <= 0){
+        this.player.stateImg = 2;
+        this._playShowGameOver();
+       } else if (this.enemy.health <= 0){  //if enemy dies show other image
+         this.enemy.stateImg = 2;
+         this._playShowGameOver();
+       }
 
     //Checks if player and enemy can fight
     if (
@@ -497,11 +509,15 @@ class Game {
     //   console.log(this.enemy.canReceiveDamage);
      }
 
-   //Check if GameOver
-   if (this.player.health <= 0 || this.enemy.health <= 0 ) 
-   {
-     this._playShowGameOver();
-   }
+      //Check if GameOver
+      //if player dies show other image
+      if(this.player.health <= 0){
+        this.player.stateImg = 2;
+        this._playShowGameOver();
+       } else if (this.enemy.health <= 0){  //if enemy dies show other image
+         this.enemy.stateImg = 2;
+         this._playShowGameOver();
+       }
 
 
 
@@ -661,8 +677,9 @@ class Game {
   }
 
   _playShowGameOver(){
-    //stops IA
+    //stops IA and player base img interval
     clearInterval(this.intervalEnemyIA);
+    clearInterval(this.imgInterval)
     //waits to end current animation before to draw 
     this.intervalWaitGameOver = setInterval(() => {
       clearInterval(this.intervalWaitGameOver);
@@ -737,6 +754,11 @@ class Game {
     this.intervalEnemyIA = setInterval(() => {
       this._manageEnemyIA();
     }, 700);
+    //After a moving, turn base char position
+    this.imgInterval = setInterval(() => {
+          this.player.stateImg = 0;
+          this.enemy.stateImg = 0;
+    }, 2000);
     this._update();
   }
 }
