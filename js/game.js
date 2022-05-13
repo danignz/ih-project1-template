@@ -1,12 +1,12 @@
 class Game {
   constructor(context) {
     this.ctx = context;
-    this.player = new Player(100, 230, characters[2],playerMarkerImg);
-    this.enemy = new Enemy(-900, 230, characters[1],enemyMarkerImg);
+    this.player = new Player(100, 230, characters[1],playerMarkerImg);
+    this.enemy = new Enemy(-900, 230, characters[2],enemyMarkerImg);
     this.intervalEnemyIA = undefined;
     this.intervalGameOver = undefined;
     this.intervalWaitGameOver = undefined;
-    this.imgInterval = undefined;
+    this.intervalImg = undefined;
   }
 
   //Method to draw the static player at the screen
@@ -155,16 +155,21 @@ class Game {
           //The moveIntervalWait manages the duration of char's animation before throwing the ball. Undefined means that there are not another running in this moment.
           if (
             !this.player.chakraBall.moveInterval &&
-            !this.player.chakraBall.moveIntervalWait
+            !this.player.chakraBall.moveIntervalWait && this.player.charAnimaton.actionInterval === undefined
           ) {
             //Plays the player's action animation linked to Chakraball throwing
-            this.player.charAnimaton._executeAnimation("special");
-            //Invoke to _setStart method. It needs to know the coordinates of the char's current position and add to the X-asis its width to be draw in the right place
-            this.player.chakraBall._setStart(
-              this.player.x + this.player.width,
-              this.player.y,
-              "player"
+            this.player.charAnimaton._executeAnimation("energy");
+            this.player.energyInterval = setTimeout(() => {
+              //Plays the player's action animation linked to Chakraball throwing
+              this.player.charAnimaton._executeAnimation("special");
+              //Invoke to _setStart method. It needs to know the coordinates of the char's current position and add to the X-asis its width to be draw in the right place
+              this.player.chakraBall._setStart(
+                this.player.x + this.player.width,
+                this.player.y,
+                "player"
             );
+            clearInterval(this.player.energyInterval);
+           }, 1000);
           }
           break;
         case "KeyA":
@@ -226,7 +231,7 @@ class Game {
   _checkPlayerAdvancedFront() {
     //Method check if the player can move to the right side depend on if not across the position of the enemy
     if (
-      this.player.x + this.player.width - 10 <=
+      this.player.x + this.player.width - 70 <=
       Math.abs(this.enemy.x) - this.enemy.width
     ) {
       this.player.ableToAdvance = true;
@@ -238,7 +243,7 @@ class Game {
   _checkEnemyAdvancedFront() {
     //Method check if the enemy can move to the left side depend on if not across the position of the player
     if (
-      this.player.x + this.player.width - 10 <=
+      this.player.x + this.player.width - 70 <=
       Math.abs(this.enemy.x) - this.enemy.width
     ) {
       this.enemy.ableToAdvance = true;
@@ -249,7 +254,7 @@ class Game {
 
   //Method that controls the machine's IA
   _manageEnemyIA() {
-    let randomAction = Math.floor(Math.random() * 15); // expected output: between 0-14;
+    let randomAction = Math.floor(Math.random() * 14); // expected output: between 0-13;
     //let randomAction = 8;
 
     switch (randomAction) {
@@ -309,22 +314,27 @@ class Game {
         break;
       case 12:
       case 13:
-      case 14:
-        //Only creates a new ChakraBall if both setInterval are undefined (that means that there are not another running in this moment)
-        //The moveIntervalWait manages the duration of char's animation before throwing the ball. Undefined means that there are not another running in this moment.
-        if (
-          !this.enemy.chakraBall.moveInterval &&
-          !this.enemy.chakraBall.moveIntervalWait
-        ) {
-          this.enemy.charAnimaton._executeAnimation("special");
+          //Only creates a new ChakraBall if both setInterval are undefined (that means that there are not another running in this moment)
+          //The moveIntervalWait manages the duration of char's animation before throwing the ball. Undefined means that there are not another running in this moment.
+          if (
+            !this.enemy.chakraBall.moveInterval &&
+            !this.enemy.chakraBall.moveIntervalWait && this.enemy.charAnimaton.actionInterval === undefined
+          ) {
+            //Plays the player's action animation linked to Chakraball throwing
+            this.enemy.charAnimaton._executeAnimation("energy");
+            this.enemy.energyInterval = setTimeout(() => {
+              //Plays the player's action animation linked to Chakraball throwing
+              this.enemy.charAnimaton._executeAnimation("special");
           //Invoke to _setStart method, it needs to know the coordinates of the enemy's current position and add to the X-asis its width to be draw in the right place
           this.enemy.chakraBall._setStart(
             Math.abs(this.enemy.x) - this.enemy.width,
             this.enemy.y,
             "enemy"
           );
-        }
-        break;
+          clearInterval(this.enemy.energyInterval);
+          }, 1000);
+          }
+          break; 
     }
   }
 
@@ -474,24 +484,25 @@ class Game {
       &&
       //check if player's chakraball across inside the enemy in y asis
       (
-       ((this.enemy.y <= this.player.y + 60) &&
-       (this.enemy.y + this.enemy.height >= this.player.y + 60))
+       ((this.enemy.y <= this.player.y + 70) &&
+       (this.enemy.y + this.enemy.height >= this.player.y + 70))
        //These condition checks if the player's chakraball botton corner its inside the enemy. Check y asis 
        ||
-       ((this.enemy.y <= this.player.y + this.player.charImages[0].height * this.player.scale - 60) &&
-       (this.enemy.y + this.enemy.height >= this.player.y + this.player.charImages[0].height * this.player.scale - 60))
+       ((this.enemy.y <= this.player.y + this.player.charImages[0].height * this.player.scale - 70) &&
+       (this.enemy.y + this.enemy.height >= this.player.y + this.player.charImages[0].height * this.player.scale - 70))
        //These condition checks if the player's chakraball upper corner its inside the enemy. Check y asis 
        ||        
-       ((this.enemy.y <= this.player.y + 60) &&
-       (this.enemy.y + this.enemy.height >= this.player.y + this.player.charImages[0].height * this.player.scale - 60))
+       ((this.enemy.y <= this.player.y + 70) &&
+       (this.enemy.y + this.enemy.height >= this.player.y + this.player.charImages[0].height * this.player.scale - 70))
        //These condition checks if the player's chakraball its inside the enemy's body. Check y asis 
        || 
-       ((this.enemy.y >= this.player.y + 60) &&
-       (this.enemy.y + this.enemy.height <= this.player.y + this.player.charImages[0].height * this.player.scale - 60))
+       ((this.enemy.y >= this.player.y + 70) &&
+       (this.enemy.y + this.enemy.height <= this.player.y + this.player.charImages[0].height * this.player.scale - 70))
        //These condition checks if the enemy's body its inside the chakraball. Its an hipotetic case, because chars by default are bigger than chakraball. Check y asis 
       )
      )
      {
+
       /*
        //Save the collition Point to draw Explosion Animation
        this.player.chakraBall.lastExplosionX = this.player.chakraBall.x;
@@ -679,9 +690,9 @@ class Game {
   _playShowGameOver(){
     //stops IA and player base img interval
     clearInterval(this.intervalEnemyIA);
-    clearInterval(this.imgInterval)
+    clearInterval(this.intervalImg)
     //waits to end current animation before to draw 
-    this.intervalWaitGameOver = setInterval(() => {
+    this.intervalWaitGameOver = setTimeout(() => {
       clearInterval(this.intervalWaitGameOver);
       this._clean();
       this._drawEnemy();
@@ -707,7 +718,7 @@ class Game {
         );
       }
 
-      this.intervalGameOver = setInterval(() => {
+      this.intervalGameOver = setTimeout(() => {
         clearInterval(this.intervalGameOver);
         this._gameOver();
       }, 7000);
@@ -753,9 +764,9 @@ class Game {
     //When the game starts, the Enemy's IA is activated till the end of the game
     this.intervalEnemyIA = setInterval(() => {
       this._manageEnemyIA();
-    }, 700);
+    }, 1000);
     //After a moving, turn base char position
-    this.imgInterval = setInterval(() => {
+    this.intervalImg = setInterval(() => {
           this.player.stateImg = 0;
           this.enemy.stateImg = 0;
     }, 2000);

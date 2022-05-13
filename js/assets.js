@@ -3,8 +3,8 @@ const screenHeightLimit = 35;
 
 //The array contain all the avariable chars and their imagenes
 const characters = [
-  { name: "GogetaBlue", scale: 0.12, imageSecuence: [] },
-  { name: "Cell", scale: 0.15, imageSecuence: [] },
+  { name: "GogetaBlue", scale: 0.20, imageSecuence: [] },
+  { name: "Cell", scale: 0.19, imageSecuence: [] },
   { name: "Jiren", scale: 0.18, imageSecuence: [] },
 ];
 

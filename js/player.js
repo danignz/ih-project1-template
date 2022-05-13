@@ -17,6 +17,7 @@ class Player {
     this.strength = 5;
     this.stateImg = 0;
     this.imgInterval = undefined;
+    this.energyInterval = undefined;
   }
 
   moveRight() {
