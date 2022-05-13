@@ -6,6 +6,7 @@ const characters = [
   { name: "GogetaBlue", scale: 0.20, imageSecuence: [] },
   { name: "Cell", scale: 0.19, imageSecuence: [] },
   { name: "Jiren", scale: 0.18, imageSecuence: [] },
+  { name: "Gohan", scale: 0.25, imageSecuence: [] },
 ];
 
 //Load all the images for every char
