@@ -3,7 +3,14 @@
   padding: 0;
 }
 
-/* Basic styles, change according to your style */
+body {
+  background-color: #757F9A;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+p {
+  margin: 15px 0;
+}
 
 #start-page,
 #final-page {
@@ -17,6 +24,25 @@
   margin: 0 auto;
   border: 1px solid black;
   margin-top: 30px;
+  background: #757F9A;
+  background: linear-gradient(0deg,#757F9A, #D7DDE8);
+  color: white;
+}
+
+button#start,
+button#start-again {
+  padding: 15px 30px;
+  border-radius: 30px;
+  font-size: 20px;
+  border: none;
+  margin: 10px 0;
+  background-color: lightgoldenrodyellow;
+}
+
+button#start:hover,
+button#start-again:hover {
+  background: linear-gradient(to top, #7f7fd5, #86a8e7, #91eae4);
+  color: white;
 }
 
 #final-page {
