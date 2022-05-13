@@ -1,7 +1,7 @@
 class Game {
   constructor(context) {
     this.ctx = context;
-    this.player = new Player(100, 230, characters[1],playerMarkerImg);
+    this.player = new Player(100, 230, characters[0],playerMarkerImg);
     this.enemy = new Enemy(-900, 230, characters[2],enemyMarkerImg);
     this.intervalEnemyIA = undefined;
     this.intervalGameOver = undefined;
@@ -254,8 +254,12 @@ class Game {
 
   //Method that controls the machine's IA
   _manageEnemyIA() {
-    let randomAction = Math.floor(Math.random() * 14); // expected output: between 0-13;
+    let randomAction = Math.floor(Math.random() * 15); // expected output: between 0-14;
     //let randomAction = 8;
+    if (
+      !this.enemy.chakraBall.moveInterval &&
+      !this.enemy.chakraBall.moveIntervalWait && this.enemy.charAnimaton.actionInterval === undefined
+    ) {
 
     switch (randomAction) {
       case 0:
@@ -278,8 +282,12 @@ class Game {
         this.enemy.moveUp();
         this.enemy.moveUp();
         this.enemy.moveUp();
+        this.enemy.moveUp();
+        this.enemy.moveUp();
         break;
       case 3:
+        this.enemy.moveDown();
+        this.enemy.moveDown();
         this.enemy.moveDown();
         this.enemy.moveDown();
         this.enemy.moveDown();
@@ -314,6 +322,7 @@ class Game {
         break;
       case 12:
       case 13:
+      case 14: 
           //Only creates a new ChakraBall if both setInterval are undefined (that means that there are not another running in this moment)
           //The moveIntervalWait manages the duration of char's animation before throwing the ball. Undefined means that there are not another running in this moment.
           if (
@@ -336,6 +345,8 @@ class Game {
           }
           break; 
     }
+
+  }
   }
 
   _checkCollisions() {
@@ -721,7 +732,7 @@ class Game {
       this.intervalGameOver = setTimeout(() => {
         clearInterval(this.intervalGameOver);
         this._gameOver();
-      }, 7000);
+      }, 5000);
 
     }, 1000);
   }
@@ -764,7 +775,7 @@ class Game {
     //When the game starts, the Enemy's IA is activated till the end of the game
     this.intervalEnemyIA = setInterval(() => {
       this._manageEnemyIA();
-    }, 1000);
+    }, 700);
     //After a moving, turn base char position
     this.intervalImg = setInterval(() => {
           this.player.stateImg = 0;
