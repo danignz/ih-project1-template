@@ -30,7 +30,7 @@ class ChakraBall {
   //Each execution of moveInterval will cause to draw a different frame due X increasing and it will be readed later by the Game method _drawChakraBall
   _setStart(initialXPosition, initialYPosition, summoner) {
     //Need to know the current position of char to paint the ball
-    this.x = initialXPosition;
+    this.x = initialXPosition - 60;
     this.y = initialYPosition;
     //Next vars needed to manage the moveInterval time limits, autostop to paint the ball when the variable reach a certain limit.
     const limitTimes = 25;
