@@ -1,5 +1,5 @@
 //Create height limit where the player cannot move due the markers space
-const screenHeightLimit = 35;
+const screenHeightLimit = -20;
 
 //The array contain all the avariable chars and their imagenes
 const characters = [
@@ -8,6 +8,7 @@ const characters = [
   { name: "Jiren", scale: 0.25, imageSecuence: [] },
   { name: "Gohan", scale: 0.29, imageSecuence: [] },
   { name: "Vegeta", scale: 0.25, imageSecuence: [] },
+  { name: "MutenRoshi", scale: 0.30, imageSecuence: [] },
 ];
 
 //Load all the images for every char
