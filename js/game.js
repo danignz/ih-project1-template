@@ -1,8 +1,8 @@
 class Game {
   constructor(context) {
     this.ctx = context;
-    this.player = new Player(100, 200, characters[6],playerMarkerImg);//Math.floor(Math.random() * 8)
-    this.enemy = new Enemy(-900, 200, characters[Math.floor(Math.random() * 8)],enemyMarkerImg);
+    this.player = new Player(100, 200, characters[player],playerMarkerImg);
+    this.enemy = new Enemy(-900, 200, characters[enemy],enemyMarkerImg);
     this.intervalEnemyIA = undefined;
     this.intervalGameOver = undefined;
     this.intervalWaitGameOver = undefined;

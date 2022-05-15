@@ -1,6 +1,10 @@
 //Create height limit where the player cannot move due the markers space
 const screenHeightLimit = -20;
 
+//Vars used in select Game
+let player;
+let enemy;
+
 //The array contain all the avariable chars and their imagenes
 const characters = [
   { name: "GogetaBlue", scale: 0.25, imageSecuence: [] },

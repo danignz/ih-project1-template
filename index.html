@@ -1,39 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css"/>
-  <title>DragonBall</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>DragonBall</title>
+  </head>
+  <body>
+    <div id="start-page">
+      <main>
+        <h1>JS WARRIORS</h1>
+        <p>Instructions: Game in development</p>
+        <button id="start">START</button>
+      </main>
+    </div>
 
-  <div id="start-page">
-    <main>
-      <h1>JS WARRIORS</h1>
-      <p>Instructions: Game in development</p>
-      <button id="start">START</button>
-    </main>
-  </div>
+    <div id="select-page">
+      <main>
+        <h1>SELECT PLAYER</h1>
+        <p>Select your favourite character!</p>
+        <div>
+          <img id="XenoGoku" src="img/XenoGoku/_select.png" alt="">
+          <img id="Vegeta" src="img/Vegeta/_select.png" alt="">
+          <img id="GogetaBlue" src="img/GogetaBlue/_select.png" alt="">
+          <img id="MutenRoshi" src="img/MutenRoshi/_select.png" alt="">
+          <img id="Gohan" src="img/Gohan/_select.png" alt="">          
+          <img id="Cell" src="img/Cell/_select.png" alt="">   
+          <img id="SuperBuu" src="img/SuperBuu/_select.png" alt="">  
+          <img id="Jiren" src="img/Jiren/_select.png" alt="">  
+        </div>
+      </main>
+    </div>
+
+    <div id="select-enemy">
+      <main>
+        <h1>SELECT ENEMY</h1>
+        <p>Select the character you will fight with!</p>
+        <div>
+          <img id="XenoGoku2" src="img/XenoGoku/_select.png" alt="">
+          <img id="Vegeta2" src="img/Vegeta/_select.png" alt="">
+          <img id="GogetaBlue2" src="img/GogetaBlue/_select.png" alt="">
+          <img id="MutenRoshi2" src="img/MutenRoshi/_select.png" alt="">
+          <img id="Gohan2" src="img/Gohan/_select.png" alt="">          
+          <img id="Cell2" src="img/Cell/_select.png" alt="">   
+          <img id="SuperBuu2" src="img/SuperBuu/_select.png" alt="">  
+          <img id="Jiren2" src="img/Jiren/_select.png" alt="">  
+        </div>
+      </main>
+    </div>
 
     <div id="final-page">
-    <main>
-      <h1>COMBAT FINISHED!</h1>
-    </main>
-  </div>
+      <main>
+        <h1>COMBAT FINISHED!</h1>
+      </main>
+    </div>
 
-  <canvas id="canvas" width="1000" height="600" class="hidden"></canvas>
+    <canvas id="canvas" width="1000" height="600" class="hidden"></canvas>
 
-<!--  <canvas id="canvas" width="1000" height="600"></canvas>-->
-
-  <script src="js/assets.js"></script>
-  <script src="js/animationplayer.js"></script>
-  <script src="js/animationexplosion.js"></script>
-  <script src="js/chakraball.js"></script>
-  <script src="js/player.js"></script>
-  <script src="js/enemy.js"></script>
-  <script src="js/game.js"></script>
-  <script src="js/scripts.js"></script>
-</body>
+    <script src="js/assets.js"></script>
+    <script src="js/animationplayer.js"></script>
+    <script src="js/animationexplosion.js"></script>
+    <script src="js/chakraball.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/enemy.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/scripts.js"></script>
+  </body>
 </html>
