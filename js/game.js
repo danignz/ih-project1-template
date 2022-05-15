@@ -1,8 +1,8 @@
 class Game {
   constructor(context) {
     this.ctx = context;
-    this.player = new Player(100, 230, characters[5],playerMarkerImg);//Math.floor(Math.random() * 5)
-    this.enemy = new Enemy(-900, 230, characters[0],enemyMarkerImg);
+    this.player = new Player(100, 200, characters[6],playerMarkerImg);//Math.floor(Math.random() * 8)
+    this.enemy = new Enemy(-900, 200, characters[Math.floor(Math.random() * 8)],enemyMarkerImg);
     this.intervalEnemyIA = undefined;
     this.intervalGameOver = undefined;
     this.intervalWaitGameOver = undefined;
@@ -231,7 +231,7 @@ class Game {
   _checkPlayerAdvancedFront() {
     //Method check if the player can move to the right side depend on if not across the position of the enemy
     if (
-      this.player.x + this.player.width - 90 <=
+      this.player.x + this.player.width - 100 <=
       Math.abs(this.enemy.x) - this.enemy.width
     ) {
       this.player.ableToAdvance = true;
@@ -243,7 +243,7 @@ class Game {
   _checkEnemyAdvancedFront() {
     //Method check if the enemy can move to the left side depend on if not across the position of the player
     if (
-      this.player.x + this.player.width - 90 <=
+      this.player.x + this.player.width - 100 <=
       Math.abs(this.enemy.x) - this.enemy.width
     ) {
       this.enemy.ableToAdvance = true;
@@ -362,20 +362,20 @@ class Game {
         &&
         //These condition checks if the enemy's chakraball upper corner its inside the player's ball. Check y asis    
         (
-          ((this.enemy.chakraBall.y + 50 <= this.player.chakraBall.y) &&
-          (this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale - 50 >= this.player.chakraBall.y))
+          ((this.enemy.chakraBall.y + 40 <= this.player.chakraBall.y) &&
+          (this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale - 40 >= this.player.chakraBall.y))
           //These condition checks if the enemy's chakraball botton corner its inside the player's ball. Check y asis    
           ||
-          ((this.enemy.chakraBall.y + 50 <= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale) &&
-          (this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale - 50 >= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale))
+          ((this.enemy.chakraBall.y + 40 <= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale) &&
+          (this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale - 40 >= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale))
           ||        
           //These condition checks if the player's chakraball its smaller than enemy's ball and it across inside it. Check y asis
-          ((this.enemy.chakraBall.y + 50 <= this.player.chakraBall.y) &&
-          (this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale - 50 >= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale))
+          ((this.enemy.chakraBall.y + 40 <= this.player.chakraBall.y) &&
+          (this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale - 40 >= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale))
           //These condition checks if the enemy's chakraball its smaller than player's ball and it across inside it. Check y asis
           || 
-          ((this.enemy.chakraBall.y + 50 >= this.player.chakraBall.y) &&
-          (this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale - 50 <= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale))
+          ((this.enemy.chakraBall.y + 40 >= this.player.chakraBall.y) &&
+          (this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale - 40 <= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale))
         )
     ) {
 
@@ -398,20 +398,20 @@ class Game {
        &&
        //check if player's chakraball across inside the enemy in y asis
        (
-        ((this.enemy.y + 60 <= this.player.chakraBall.y) &&
-        (this.enemy.y + this.enemy.height - 20 >= this.player.chakraBall.y))
+        ((this.enemy.y <= this.player.chakraBall.y + 40) &&
+        (this.enemy.y + this.enemy.height >= this.player.chakraBall.y + 40))
         //These condition checks if the player's chakraball botton corner its inside the enemy. Check y asis 
         ||
-        ((this.enemy.y + 60 <= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale) &&
-        (this.enemy.y + this.enemy.height - 20 >= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale))
+        ((this.enemy.y <= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale - 60) &&
+        (this.enemy.y + this.enemy.height >= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale - 60))
         //These condition checks if the player's chakraball upper corner its inside the enemy. Check y asis 
         ||        
-        ((this.enemy.y + 60 <= this.player.chakraBall.y) &&
-        (this.enemy.y + this.enemy.height - 20 >= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale))
+        ((this.enemy.y <= this.player.chakraBall.y + 40) &&
+        (this.enemy.y + this.enemy.height >= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale - 60))
         //These condition checks if the player's chakraball its inside the enemy's body. Check y asis 
         || 
-        ((this.enemy.y + 60 >= this.player.chakraBall.y) &&
-        (this.enemy.y + this.enemy.height - 20 <= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale))
+        ((this.enemy.y >= this.player.chakraBall.y + 40) &&
+        (this.enemy.y + this.enemy.height <= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale - 60))
         //These condition checks if the enemy's body its inside the chakraball. Its an hipotetic case, because chars by default are bigger than chakraball. Check y asis 
        )
       )
@@ -446,20 +446,20 @@ class Game {
        &&
        //check if enemy's chakraball across inside the player in y asis
        (
-        ((this.player.y + 60 <= this.enemy.chakraBall.y) &&
-        (this.player.y + this.player.height - 20 >= this.enemy.chakraBall.y))
+        ((this.player.y <= this.enemy.chakraBall.y + 40) &&
+        (this.player.y + this.player.height >= this.enemy.chakraBall.y + 40))
         //These condition checks if the enemy's chakraball botton corner its inside the player. Check y asis 
         ||
-        ((this.player.y + 60 <= this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale) &&
-        (this.player.y + this.player.height - 20 >= this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale))
+        ((this.player.y <= this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale - 60) &&
+        (this.player.y + this.player.height >= this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale - 60))
         //These condition checks if the enemy's chakraball upper corner its inside the player. Check y asis 
         ||        
-        ((this.player.y + 60 <= this.enemy.chakraBall.y) &&
-        (this.player.y + this.player.height - 20 >= this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale))
+        ((this.player.y <= this.enemy.chakraBall.y + 40) &&
+        (this.player.y + this.player.height >= this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale - 60))
         //These condition checks if the enemy's chakraball its inside the player's body. Check y asis 
         || 
-        ((this.player.y + 60 >= this.enemy.chakraBall.y) &&
-        (this.player.y + this.player.height - 20 <= this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale))
+        ((this.player.y >= this.enemy.chakraBall.y + 40) &&
+        (this.player.y + this.player.height <= this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale - 60))
         //These condition checks if the player's body its inside the chakraball. Its an hipotetic case, because chars by default are bigger than chakraball. Check y asis 
        )
       )
@@ -732,7 +732,7 @@ class Game {
       this.intervalGameOver = setTimeout(() => {
         clearInterval(this.intervalGameOver);
         this._gameOver();
-      }, 5000);
+      }, 4000);
 
     }, 1000);
   }
