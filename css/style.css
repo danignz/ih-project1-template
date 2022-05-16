@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Press Start 2P');
+
 * {
   margin: 0;
   padding: 0;
@@ -5,11 +7,16 @@
 
 body {
   background-color: #757F9A;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+  font-family: 'Press Start 2P', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }
 
 p {
   margin: 15px 0;
+}
+
+h1{
+  margin-bottom: 30px;
+  font-size: 30px;
 }
 
 #start-page,
@@ -36,6 +43,7 @@ p {
   display: none;
   justify-content: center;
   align-items: center;
+  align-content: center;
   flex-direction: column;
   text-align: center;
   margin: 0 auto;
@@ -59,18 +67,14 @@ p {
   height: 350px;
   display: flex;
   flex-wrap: wrap;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
   align-content: center;
   gap: 40px;
 }
 
 #select-enemy main div{
-  background: rgb(117, 68, 68);
-}
-
-#select-page main div{
-  background: rgb(112, 149, 197);
+  background: rgb(56, 51, 51);
 }
 
 button#start,
@@ -83,14 +87,35 @@ button#start-again {
   background-color: lightgoldenrodyellow;
 }
 
+button#start-again{
+  margin-bottom: 40px;
+}
+
 button#start:hover,
 button#start-again:hover {
-  background: linear-gradient(to top, #7f7fd5, #86a8e7, #91eae4);
+  background: linear-gradient(to right, #000000, #434343);
   color: white;
 }
 
 #final-page {
   display: none;
+}
+
+#start-page > main > img:first-child{
+  height: 65px;
+  margin-bottom: 60px;
+}
+
+#howplay{
+  margin-left: 40px;
+  height: 140px;
+  display: block;
+  margin-bottom: 40px;
+}
+
+#endImg{
+  height: 250px;
+  display: block;
 }
 
 canvas {

@@ -55,7 +55,7 @@ class ChakraBall {
           this._stopMove();
         }
         i++;
-      }, 100);
+      }, 50);
     }, 790);
   }
 }

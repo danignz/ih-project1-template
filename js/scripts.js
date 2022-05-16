@@ -7,6 +7,13 @@ window.onload = function () {
   const selectPage = document.getElementById('select-page');
   const selectEnemyPage = document.getElementById('select-enemy');
 
+  const finalPage = document.getElementById('final-page');
+  const startAgainButton = document.getElementById('start-again');
+
+  startAgainButton.onclick = function () {
+    finalPage.style = "display: none";
+    location.reload();
+  }
 
   startButton.onclick = function () {
     startPage.style = "display: none";
