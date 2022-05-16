@@ -44,6 +44,12 @@ class ChakraBall {
         }else{
           this.x = this.x - 40;
         }
+        let randomYDirection = Math.floor(Math.random() * 20);
+        if(randomYDirection % 2 === 0){
+          this.y = this.y - randomYDirection;
+        }else{
+          this.y = this.y + randomYDirection;
+        }
         if (i > limitTimes) {
           //When reach (limitTimes*100) seconds, the interval stop itself (the ball acrossed the full width)
           this._stopMove();
