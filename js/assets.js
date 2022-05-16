@@ -9,12 +9,12 @@ let enemy;
 const characters = [
   { name: "GogetaBlue", scale: 0.25, imageSecuence: [] },
   { name: "Cell", scale: 0.25, imageSecuence: [] },
-  { name: "Jiren", scale: 0.25, imageSecuence: [] },
+  { name: "Jiren", scale: 0.24, imageSecuence: [] },
   { name: "Gohan", scale: 0.30, imageSecuence: [] },
   { name: "Vegeta", scale: 0.26, imageSecuence: [] },
   { name: "MutenRoshi", scale: 0.30, imageSecuence: [] },
   { name: "XenoGoku", scale: 0.30, imageSecuence: [] },
-  { name: "SuperBuu", scale: 0.29, imageSecuence: [] },
+  { name: "SuperBuu", scale: 0.28, imageSecuence: [] },
 ];
 
 //Load all the images for every char
@@ -137,7 +137,7 @@ for (let i = 0; i < characters.length; i++) {
   characters[i].imageSecuence[38].src = `./img/${characters[i].name}/up.png`;
 
   characters[i].imageSecuence[39] = new Image();
-  characters[i].imageSecuence[39].src = `./img/${characters[i].name}/_select.png`;
+  characters[i].imageSecuence[39].src = `./img/${characters[i].name}/select.png`;
 }
 
 //Load all the images to manage the markers

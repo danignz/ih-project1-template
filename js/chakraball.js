@@ -44,7 +44,7 @@ class ChakraBall {
         }else{
           this.x = this.x - 40;
         }
-        let randomYDirection = Math.floor(Math.random() * 20);
+        let randomYDirection = Math.floor(Math.random() * 10);
         if(randomYDirection % 2 === 0){
           this.y = this.y - randomYDirection;
         }else{
