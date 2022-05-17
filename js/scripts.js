@@ -10,6 +10,8 @@ window.onload = function () {
   const finalPage = document.getElementById('final-page');
   const startAgainButton = document.getElementById('start-again');
 
+  canvas.style = `background-image: url('/img/Others/bg${Math.floor(Math.random() * 7)}.png');`;
+
   startAgainButton.onclick = function () {
     finalPage.style = "display: none";
     location.reload();
