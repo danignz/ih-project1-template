@@ -6,17 +6,17 @@
 }
 
 body {
-  background-color: #757F9A;
+  background-color: #2d3242;
   font-family: 'Press Start 2P', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }
 
 p {
-  margin: 15px 0;
+  margin: 20px 0;
 }
 
 h1{
   margin-bottom: 30px;
-  font-size: 30px;
+  font-size: 25px;
 }
 
 #start-page,
@@ -62,7 +62,7 @@ h1{
 
 #select-enemy main div,
 #select-page main div{
-  background: #757F9A;
+  background: #6b87d4f5;
   width: 600px;
   height: 350px;
   display: flex;
@@ -73,8 +73,20 @@ h1{
   gap: 40px;
 }
 
+#select-page main h1{
+  display: inline;
+  color: #ffffff;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #1856ff, 0 0 30px #1856ff, 0 0 40px #1856ff, 0 0 55px #1856ff, 0 0 75px #1856ff;  
+}
+
+#select-enemy main h1{
+  display: inline;
+  color: #ffffff;
+  text-shadow: #fff 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px, red 0 -18px 40px;
+}
+
 #select-enemy main div{
-  background: rgb(56, 51, 51);
+  background: rgba(255, 139, 7, 0.39);
 }
 
 button#start,
@@ -83,7 +95,7 @@ button#start-again {
   border-radius: 30px;
   font-size: 20px;
   border: none;
-  margin: 30px 0;
+  margin: 20px 0;
   background-color: lightgoldenrodyellow;
 }
 
@@ -99,6 +111,10 @@ button#start-again:hover {
 
 #final-page {
   display: none;
+}
+
+#final-page h1{
+  margin-top: 40px;
 }
 
 #start-page > main > img:first-child{
