@@ -16,7 +16,7 @@ class AnimationPlayer {
       case "energy":
         this.initFrame = 5;
         this.lasttFrame = 10;
-        this.animationTime = 320;
+        this.animationTime = 300;
         break;
       case "intro":
         this.initFrame = 12;

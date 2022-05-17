@@ -75,11 +75,11 @@ class Player {
   }
 
   punchAttack(){
-    return this.strength*2.1;
+    return this.strength*2;
   }
 
   kickAttack(){
-    return this.strength*2.3;
+    return this.strength*2;
   }
 
   specialAttack(){

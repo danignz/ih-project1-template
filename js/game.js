@@ -1,8 +1,8 @@
 class Game {
   constructor(context) {
     this.ctx = context;
-    this.player = new Player(100, 200, characters[player],playerMarkerImg);
-    this.enemy = new Enemy(-900, 200, characters[enemy],enemyMarkerImg);
+    this.player = new Player(100, 200, characters[player], playerMarkerImg);
+    this.enemy = new Enemy(-900, 200, characters[enemy], enemyMarkerImg);
     this.intervalEnemyIA = undefined;
     this.intervalGameOver = undefined;
     this.intervalWaitGameOver = undefined;
@@ -13,7 +13,6 @@ class Game {
   _drawPlayer() {
     //When an animation its running, dont have to draw the static player. Not animation executing means an undefined value by default
     if (!this.player.charAnimaton.actionInterval) {
-
       this.ctx.drawImage(
         this.player.charImages[this.player.stateImg],
         this.player.x,
@@ -117,15 +116,19 @@ class Game {
     //The image to show will depen of the current initFrame that its going to change everytime due to the actionInterval that will increase the frame
     if (this.player.chakraBall.chakraExplosionAni.isExploding) {
       this.ctx.drawImage(
-        this.player.chakraBall.explosionImages[this.player.chakraBall.chakraExplosionAni.initFrame],
+        this.player.chakraBall.explosionImages[
+          this.player.chakraBall.chakraExplosionAni.initFrame
+        ],
         this.player.chakraBall.lastExplosionX,
         this.player.chakraBall.lastExplosionY,
         this.player.width,
         this.player.height
       );
-    }else if (this.enemy.chakraBall.chakraExplosionAni.isExploding) {
+    } else if (this.enemy.chakraBall.chakraExplosionAni.isExploding) {
       this.ctx.drawImage(
-        this.enemy.chakraBall.explosionImages[this.enemy.chakraBall.chakraExplosionAni.initFrame],
+        this.enemy.chakraBall.explosionImages[
+          this.enemy.chakraBall.chakraExplosionAni.initFrame
+        ],
         this.enemy.chakraBall.lastExplosionX,
         this.enemy.chakraBall.lastExplosionY,
         this.enemy.width,
@@ -155,7 +158,8 @@ class Game {
           //The moveIntervalWait manages the duration of char's animation before throwing the ball. Undefined means that there are not another running in this moment.
           if (
             !this.player.chakraBall.moveInterval &&
-            !this.player.chakraBall.moveIntervalWait && this.player.charAnimaton.actionInterval === undefined
+            !this.player.chakraBall.moveIntervalWait &&
+            this.player.charAnimaton.actionInterval === undefined
           ) {
             //Plays the player's action animation linked to Chakraball throwing
             this.player.charAnimaton._executeAnimation("energy");
@@ -167,9 +171,9 @@ class Game {
                 this.player.x + this.player.width,
                 this.player.y,
                 "player"
-            );
-            clearInterval(this.player.energyInterval);
-           }, 1000);
+              );
+              clearInterval(this.player.energyInterval);
+            }, 1000);
           }
           break;
         case "KeyA":
@@ -180,7 +184,7 @@ class Game {
             this.player.charAnimaton.actionInterval === undefined
           ) {
             this.player.charAnimaton._executeAnimation("punch");
-            if(this.enemy.canReceiveDamage === true){
+            if (this.enemy.canReceiveDamage === true) {
               this.enemy.receiveDamage(this.player.punchAttack());
               //sets hurt image
               this.enemy.stateImg = 11;
@@ -195,7 +199,7 @@ class Game {
             this.player.charAnimaton.actionInterval === undefined
           ) {
             this.player.charAnimaton._executeAnimation("kick");
-            if(this.enemy.canReceiveDamage === true){
+            if (this.enemy.canReceiveDamage === true) {
               this.enemy.receiveDamage(this.player.kickAttack());
               //sets hurt image
               this.enemy.stateImg = 11;
@@ -231,8 +235,8 @@ class Game {
   _checkPlayerAdvancedFront() {
     //Method check if the player can move to the right side depend on if not across the position of the enemy
     if (
-      this.player.x + this.player.width - 100 <=
-      Math.abs(this.enemy.x) - this.enemy.width
+      this.player.x + this.player.width - 50 <=
+      Math.abs(this.enemy.x) - this.enemy.width + 50
     ) {
       this.player.ableToAdvance = true;
     } else {
@@ -243,8 +247,8 @@ class Game {
   _checkEnemyAdvancedFront() {
     //Method check if the enemy can move to the left side depend on if not across the position of the player
     if (
-      this.player.x + this.player.width - 100 <=
-      Math.abs(this.enemy.x) - this.enemy.width
+      this.player.x + this.player.width - 50 <=
+      Math.abs(this.enemy.x) - this.enemy.width + 50
     ) {
       this.enemy.ableToAdvance = true;
     } else {
@@ -254,131 +258,155 @@ class Game {
 
   //Method that controls the machine's IA
   _manageEnemyIA() {
-    let randomAction = Math.floor(Math.random() * 15); // expected output: between 0-14;
+    let randomAction = Math.floor(Math.random() * 13); // expected output: between 0-14;
     //let randomAction = 12;
     if (
       !this.enemy.chakraBall.moveInterval &&
-      !this.enemy.chakraBall.moveIntervalWait && this.enemy.charAnimaton.actionInterval === undefined
+      !this.enemy.chakraBall.moveIntervalWait &&
+      this.enemy.charAnimaton.actionInterval === undefined
     ) {
+      for (let i = 0; i < randomAction; i++) {
+        if (this.enemy.ableToAdvance === true) {
+          this.enemy.moveLeft();
+          this._checkEnemyAdvancedFront();
+        }
+      }
+      if (randomAction % 2 !== 0) {
+        for (let i = 0; i < randomAction; i++) {
+          if (
+            this.player.y - this.enemy.y < 0 &&
+            this.player.y - this.enemy.y < -16
+          ) {
+            this.enemy.moveUp();
+          } else if (
+            this.player.y - this.enemy.y > 0 &&
+            this.player.y - this.enemy.y > 16
+          ) {
+            this.enemy.moveDown();
+          }
+        }
+      }
 
-    switch (randomAction) {
-      case 0:
-        this.enemy.moveLeft();
-        this.enemy.moveLeft();
-        this.enemy.moveLeft();
-        this.enemy.moveLeft();
-        this.enemy.moveLeft();
-        break;
-      case 1:
-        this.enemy.moveRight();
-        this.enemy.moveRight();
-        this.enemy.moveRight();
-        this.enemy.moveRight();
-        this.enemy.moveRight();
-        break;
-      case 2:
-        this.enemy.moveUp();
-        this.enemy.moveUp();
-        this.enemy.moveUp();
-        this.enemy.moveUp();
-        this.enemy.moveUp();
-        this.enemy.moveUp();
-        this.enemy.moveUp();
-        break;
-      case 3:
-        this.enemy.moveDown();
-        this.enemy.moveDown();
-        this.enemy.moveDown();
-        this.enemy.moveDown();
-        this.enemy.moveDown();
-        this.enemy.moveDown();
-        this.enemy.moveDown();
-        break;
-      case 4:
-      case 5:
-      case 6:
-        this.enemy.charAnimaton._executeAnimation("punch");
-        if(this.player.canReceiveDamage === true){
-          this.player.receiveDamage(this.enemy.punchAttack());
-          //sets hurt image
-          this.player.stateImg = 11;
-        }
-        break;
-      case 7:
-      case 8:
-      case 9:
-        this.enemy.charAnimaton._executeAnimation("kick");
-        if(this.player.canReceiveDamage === true){
-          this.player.receiveDamage(this.enemy.kickAttack());
-          //sets hurt image
-          this.player.stateImg = 11;
-        }
-        break;
-      case 10:
-        this.enemy.charAnimaton._executeAnimation("energy");
-        break;
-      case 11:
-        this.enemy.charAnimaton._executeAnimation("intro");
-        break;
-      case 12:
-      case 13:
-      case 14: 
+      switch (randomAction) {
+        case 0:
+          for (let i = 0; i < randomAction; i++) {
+            this.enemy.moveRight();
+          }
+          break;
+        case 1:
+          for (let i = 0; i < randomAction; i++) {
+            this.enemy.moveUp();
+          }
+          break;
+        case 2:
+          for (let i = 0; i < randomAction; i++) {
+            this.enemy.moveDown();
+          }
+          break;
+        case 3:
+        case 4:
+        case 5:
+          this.enemy.charAnimaton._executeAnimation("punch");
+          if (this.player.canReceiveDamage === true) {
+            this.player.receiveDamage(this.enemy.punchAttack());
+            //sets hurt image
+            this.player.stateImg = 11;
+          }
+          break;
+        case 6:
+        case 7:
+        case 8:
+          this.enemy.charAnimaton._executeAnimation("kick");
+          if (this.player.canReceiveDamage === true) {
+            this.player.receiveDamage(this.enemy.kickAttack());
+            //sets hurt image
+            this.player.stateImg = 11;
+          }
+          break;
+        case 9:
+          this.enemy.charAnimaton._executeAnimation("energy");
+          break;
+        case 10:
+        // this.enemy.charAnimaton._executeAnimation("intro");
+        case 11:
+          for (let i = 0; i < randomAction; i++) {
+            this.enemy.moveRight();
+          }
+        case 12:
           //Only creates a new ChakraBall if both setInterval are undefined (that means that there are not another running in this moment)
           //The moveIntervalWait manages the duration of char's animation before throwing the ball. Undefined means that there are not another running in this moment.
           if (
             !this.enemy.chakraBall.moveInterval &&
-            !this.enemy.chakraBall.moveIntervalWait && this.enemy.charAnimaton.actionInterval === undefined
+            !this.enemy.chakraBall.moveIntervalWait &&
+            this.enemy.charAnimaton.actionInterval === undefined
           ) {
             //Plays the player's action animation linked to Chakraball throwing
             this.enemy.charAnimaton._executeAnimation("energy");
             this.enemy.energyInterval = setTimeout(() => {
               //Plays the player's action animation linked to Chakraball throwing
               this.enemy.charAnimaton._executeAnimation("special");
-          //Invoke to _setStart method, it needs to know the coordinates of the enemy's current position and add to the X-asis its width to be draw in the right place
-          this.enemy.chakraBall._setStart(
-            (Math.abs(this.enemy.x) - this.enemy.width),
-            this.enemy.y,
-            "enemy"
-          );
-          clearInterval(this.enemy.energyInterval);
-          }, 1000);
+              //Invoke to _setStart method, it needs to know the coordinates of the enemy's current position and add to the X-asis its width to be draw in the right place
+              this.enemy.chakraBall._setStart(
+                Math.abs(this.enemy.x) - this.enemy.width,
+                this.enemy.y,
+                "enemy"
+              );
+              clearInterval(this.enemy.energyInterval);
+            }, 1000);
           }
-          break; 
+          break;
+      }
     }
-
-  }
   }
 
   _checkCollisions() {
     //console.log(this.player.canReceiveDamage);
     //console.log(this.enemy.canReceiveDamage);
     this.player.canReceiveDamage = false;
-    this.enemy.canReceiveDamage = false;     
+    this.enemy.canReceiveDamage = false;
 
     //Two chakraballs collides with each other. If only for visual purpose.
     //The first condition checks if the enemy's chakraball completely through the player's ball. Check x asis
     if (
-        (Math.abs(this.enemy.chakraBall.x) - this.enemy.charImages[1].width * this.enemy.scale - this.player.chakraBall.x + 80 < 41) 
-        &&
-        //These condition checks if the enemy's chakraball upper corner its inside the player's ball. Check y asis    
-        (
-          ((this.enemy.chakraBall.y + 60 <= this.player.chakraBall.y + 60) &&
-          (this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale - 60 >= this.player.chakraBall.y + 60))
-          //These condition checks if the enemy's chakraball botton corner its inside the player's ball. Check y asis    
-          ||
-          ((this.enemy.chakraBall.y + 60 <= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale - 60) &&
-          (this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale - 60 >= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale - 60))
-          ||        
-          //These condition checks if the player's chakraball its smaller than enemy's ball and it across inside it. Check y asis
-          ((this.enemy.chakraBall.y + 60 <= this.player.chakraBall.y + 60) &&
-          (this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale - 60 >= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale - 60))
-          //These condition checks if the enemy's chakraball its smaller than player's ball and it across inside it. Check y asis
-          || 
-          ((this.enemy.chakraBall.y + 60 >= this.player.chakraBall.y + 60) &&
-          (this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale - 60 <= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale - 60))
-        )
+      Math.abs(this.enemy.chakraBall.x) -
+        this.enemy.charImages[1].width * this.enemy.scale -
+        this.player.chakraBall.x +
+        80 <
+        41 &&
+      //These condition checks if the enemy's chakraball upper corner its inside the player's ball. Check y asis
+      ((this.enemy.chakraBall.y + 60 <= this.player.chakraBall.y + 60 &&
+        this.enemy.chakraBall.y +
+          this.enemy.charImages[1].height * this.enemy.scale -
+          60 >=
+          this.player.chakraBall.y + 60) ||
+        //These condition checks if the enemy's chakraball botton corner its inside the player's ball. Check y asis
+        (this.enemy.chakraBall.y + 60 <=
+          this.player.chakraBall.y +
+            this.player.charImages[1].height * this.player.scale -
+            60 &&
+          this.enemy.chakraBall.y +
+            this.enemy.charImages[1].height * this.enemy.scale -
+            60 >=
+            this.player.chakraBall.y +
+              this.player.charImages[1].height * this.player.scale -
+              60) ||
+        //These condition checks if the player's chakraball its smaller than enemy's ball and it across inside it. Check y asis
+        (this.enemy.chakraBall.y + 60 <= this.player.chakraBall.y + 60 &&
+          this.enemy.chakraBall.y +
+            this.enemy.charImages[1].height * this.enemy.scale -
+            60 >=
+            this.player.chakraBall.y +
+              this.player.charImages[1].height * this.player.scale -
+              60) ||
+        //These condition checks if the enemy's chakraball its smaller than player's ball and it across inside it. Check y asis
+        (this.enemy.chakraBall.y + 60 >= this.player.chakraBall.y + 60 &&
+          this.enemy.chakraBall.y +
+            this.enemy.charImages[1].height * this.enemy.scale -
+            60 <=
+            this.player.chakraBall.y +
+              this.player.charImages[1].height * this.player.scale -
+              60))
     ) {
-
       //Save the collition Point to draw Explosion Animation
       this.player.chakraBall.lastExplosionX = this.player.chakraBall.x;
       this.player.chakraBall.lastExplosionY = this.player.chakraBall.y;
@@ -387,133 +415,139 @@ class Game {
       this.player.chakraBall._stopMove();
       this.enemy.chakraBall._stopMove();
       this.player.chakraBall.chakraExplosionAni._executeAnimationExplosion();
-
     }
-
 
     //Enemy collides with a chakraball
     if (
-       //check if player's chakraball across inside the enemy in x asis
-       ((Math.abs(this.enemy.x) - this.enemy.width - this.player.chakraBall.x < 41) && (this.player.chakraBall.x < canvas.width))
-       &&
-       //check if player's chakraball across inside the enemy in y asis
-       (
-        ((this.enemy.y + 90 <= this.player.chakraBall.y) &&
-        (this.enemy.y + this.enemy.height - 40 >= this.player.chakraBall.y))
-        //These condition checks if the player's chakraball botton corner its inside the enemy. Check y asis 
-        ||
-        ((this.enemy.y + 90 <= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale) &&
-        (this.enemy.y + this.enemy.height - 40 >= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale))
-        //These condition checks if the player's chakraball upper corner its inside the enemy. Check y asis 
-        ||        
-        ((this.enemy.y + 90 <= this.player.chakraBall.y) &&
-        (this.enemy.y + this.enemy.height - 40 >= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale))
-        //These condition checks if the player's chakraball its inside the enemy's body. Check y asis 
-        || 
-        ((this.enemy.y + 90 >= this.player.chakraBall.y) &&
-        (this.enemy.y + this.enemy.height - 40 <= this.player.chakraBall.y + this.player.charImages[1].height * this.player.scale))
-        //These condition checks if the enemy's body its inside the chakraball. Its an hipotetic case, because chars by default are bigger than chakraball. Check y asis 
-       )
-      )
-      {
-          
-        //Save the collition Point to draw Explosion Animation
-        this.player.chakraBall.lastExplosionX = this.player.chakraBall.x;
-        this.player.chakraBall.lastExplosionY = this.player.chakraBall.y;
+      //check if player's chakraball across inside the enemy in x asis
+      Math.abs(this.enemy.x) - this.enemy.width - this.player.chakraBall.x <
+        41 &&
+      this.player.chakraBall.x < canvas.width &&
+      //check if player's chakraball across inside the enemy in y asis
+      ((this.enemy.y + 90 <= this.player.chakraBall.y &&
+        this.enemy.y + this.enemy.height - 40 >= this.player.chakraBall.y) ||
+        //These condition checks if the player's chakraball botton corner its inside the enemy. Check y asis
+        (this.enemy.y + 90 <=
+          this.player.chakraBall.y +
+            this.player.charImages[1].height * this.player.scale &&
+          this.enemy.y + this.enemy.height - 40 >=
+            this.player.chakraBall.y +
+              this.player.charImages[1].height * this.player.scale) ||
+        //These condition checks if the player's chakraball upper corner its inside the enemy. Check y asis
+        (this.enemy.y + 90 <= this.player.chakraBall.y &&
+          this.enemy.y + this.enemy.height - 40 >=
+            this.player.chakraBall.y +
+              this.player.charImages[1].height * this.player.scale) ||
+        //These condition checks if the player's chakraball its inside the enemy's body. Check y asis
+        (this.enemy.y + 90 >= this.player.chakraBall.y &&
+          this.enemy.y + this.enemy.height - 40 <=
+            this.player.chakraBall.y +
+              this.player.charImages[1].height * this.player.scale))
+      //These condition checks if the enemy's body its inside the chakraball. Its an hipotetic case, because chars by default are bigger than chakraball. Check y asis
+    ) {
+      //Save the collition Point to draw Explosion Animation
+      this.player.chakraBall.lastExplosionX = this.player.chakraBall.x;
+      this.player.chakraBall.lastExplosionY = this.player.chakraBall.y;
 
-        //This means that chakraball hurts enemy
-        this.player.chakraBall._stopMove();
-        this.enemy.receiveDamage(this.player.specialAttack());
-        this.player.chakraBall.chakraExplosionAni._executeAnimationExplosion();
-        //sets hurt image
-        this.enemy.stateImg = 11;
-      }
+      //This means that chakraball hurts enemy
+      this.player.chakraBall._stopMove();
+      this.enemy.receiveDamage(this.player.specialAttack());
+      this.player.chakraBall.chakraExplosionAni._executeAnimationExplosion();
+      //sets hurt image
+      this.enemy.stateImg = 11;
+    }
 
-      //Check if GameOver
-      //if player dies show other image
-      if(this.player.health <= 0){
-       this.player.stateImg = 2;
-       this._playShowGameOver();
-      } else if (this.enemy.health <= 0){  //if enemy dies show other image
-        this.enemy.stateImg = 2;
-        this._playShowGameOver();
-      }
+    //Check if GameOver
+    //if player dies show other image
+    if (this.player.health <= 0) {
+      this.player.stateImg = 2;
+      this._playShowGameOver();
+    } else if (this.enemy.health <= 0) {
+      //if enemy dies show other image
+      this.enemy.stateImg = 2;
+      this._playShowGameOver();
+    }
 
     //Player collides with a chakraball
     if (
-       //check if enemy's chakraball across inside the player in x asis
-       ((Math.abs(this.enemy.chakraBall.x) - this.player.x < 41))
-       &&
-       //check if enemy's chakraball across inside the player in y asis
-       (
-        ((this.player.y + 90 <= this.enemy.chakraBall.y) &&
-        (this.player.y + this.player.height - 40 >= this.enemy.chakraBall.y))
-        //These condition checks if the enemy's chakraball botton corner its inside the player. Check y asis 
-        ||
-        ((this.player.y + 90 <= this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale ) &&
-        (this.player.y + this.player.height - 40 >= this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale ))
-        //These condition checks if the enemy's chakraball upper corner its inside the player. Check y asis 
-        ||        
-        ((this.player.y + 90 <= this.enemy.chakraBall.y ) &&
-        (this.player.y + this.player.height - 40 >= this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale ))
-        //These condition checks if the enemy's chakraball its inside the player's body. Check y asis 
-        || 
-        ((this.player.y + 90 >= this.enemy.chakraBall.y ) &&
-        (this.player.y + this.player.height - 40 <= this.enemy.chakraBall.y + this.enemy.charImages[1].height * this.enemy.scale ))
-        //These condition checks if the player's body its inside the chakraball. Its an hipotetic case, because chars by default are bigger than chakraball. Check y asis 
-       )
-      )
-      {
+      //check if enemy's chakraball across inside the player in x asis
+      Math.abs(this.enemy.chakraBall.x) - this.player.x < 41 &&
+      //check if enemy's chakraball across inside the player in y asis
+      ((this.player.y + 90 <= this.enemy.chakraBall.y &&
+        this.player.y + this.player.height - 40 >= this.enemy.chakraBall.y) ||
+        //These condition checks if the enemy's chakraball botton corner its inside the player. Check y asis
+        (this.player.y + 90 <=
+          this.enemy.chakraBall.y +
+            this.enemy.charImages[1].height * this.enemy.scale &&
+          this.player.y + this.player.height - 40 >=
+            this.enemy.chakraBall.y +
+              this.enemy.charImages[1].height * this.enemy.scale) ||
+        //These condition checks if the enemy's chakraball upper corner its inside the player. Check y asis
+        (this.player.y + 90 <= this.enemy.chakraBall.y &&
+          this.player.y + this.player.height - 40 >=
+            this.enemy.chakraBall.y +
+              this.enemy.charImages[1].height * this.enemy.scale) ||
+        //These condition checks if the enemy's chakraball its inside the player's body. Check y asis
+        (this.player.y + 90 >= this.enemy.chakraBall.y &&
+          this.player.y + this.player.height - 40 <=
+            this.enemy.chakraBall.y +
+              this.enemy.charImages[1].height * this.enemy.scale))
+      //These condition checks if the player's body its inside the chakraball. Its an hipotetic case, because chars by default are bigger than chakraball. Check y asis
+    ) {
+      //Save the collition Point to draw Explosion Animation
+      this.enemy.chakraBall.lastExplosionX = Math.abs(this.enemy.chakraBall.x);
+      this.enemy.chakraBall.lastExplosionY = this.enemy.chakraBall.y;
 
-        //Save the collition Point to draw Explosion Animation
-        this.enemy.chakraBall.lastExplosionX = Math.abs(this.enemy.chakraBall.x);
-        this.enemy.chakraBall.lastExplosionY = this.enemy.chakraBall.y;
+      //This means that chakraball hurts player
+      this.enemy.chakraBall._stopMove();
+      this.player.receiveDamage(this.enemy.specialAttack());
+      this.enemy.chakraBall.chakraExplosionAni._executeAnimationExplosion();
+      //sets hurt image
+      this.player.stateImg = 11;
+    }
 
-        //This means that chakraball hurts player
-        this.enemy.chakraBall._stopMove();
-        this.player.receiveDamage(this.enemy.specialAttack());
-        this.enemy.chakraBall.chakraExplosionAni._executeAnimationExplosion();
-        //sets hurt image
-        this.player.stateImg = 11;
-      }
-
-      //Check if GameOver
-      //if player dies show other image
-      if(this.player.health <= 0){
-        this.player.stateImg = 2;
-        this._playShowGameOver();
-       } else if (this.enemy.health <= 0){  //if enemy dies show other image
-         this.enemy.stateImg = 2;
-         this._playShowGameOver();
-       }
+    //Check if GameOver
+    //if player dies show other image
+    if (this.player.health <= 0) {
+      this.player.stateImg = 2;
+      this._playShowGameOver();
+    } else if (this.enemy.health <= 0) {
+      //if enemy dies show other image
+      this.enemy.stateImg = 2;
+      this._playShowGameOver();
+    }
 
     //Checks if player and enemy can fight
     if (
       //check if player if close to the enemy in x asis
-      (this.player.ableToAdvance === false && this.enemy.ableToAdvance === false)
-    
-      &&
+      this.player.ableToAdvance === false &&
+      this.enemy.ableToAdvance === false &&
       //check if player's chakraball across inside the enemy in y asis
-      (
-       ((this.enemy.y <= this.player.y + 130) &&
-       (this.enemy.y + this.enemy.height >= this.player.y + 130))
-       //These condition checks if the player's chakraball botton corner its inside the enemy. Check y asis 
-       ||
-       ((this.enemy.y <= this.player.y + this.player.charImages[0].height * this.player.scale - 130) &&
-       (this.enemy.y + this.enemy.height >= this.player.y + this.player.charImages[0].height * this.player.scale - 130))
-       //These condition checks if the player's chakraball upper corner its inside the enemy. Check y asis 
-       ||        
-       ((this.enemy.y <= this.player.y + 130) &&
-       (this.enemy.y + this.enemy.height >= this.player.y + this.player.charImages[0].height * this.player.scale - 130))
-       //These condition checks if the player's chakraball its inside the enemy's body. Check y asis 
-       || 
-       ((this.enemy.y >= this.player.y + 130) &&
-       (this.enemy.y + this.enemy.height <= this.player.y + this.player.charImages[0].height * this.player.scale - 130))
-       //These condition checks if the enemy's body its inside the chakraball. Its an hipotetic case, because chars by default are bigger than chakraball. Check y asis 
-      )
-     )
-     {
-
+      ((this.enemy.y <= this.player.y + 130 &&
+        this.enemy.y + this.enemy.height >= this.player.y + 130) ||
+        //These condition checks if the player's chakraball botton corner its inside the enemy. Check y asis
+        (this.enemy.y <=
+          this.player.y +
+            this.player.charImages[0].height * this.player.scale -
+            130 &&
+          this.enemy.y + this.enemy.height >=
+            this.player.y +
+              this.player.charImages[0].height * this.player.scale -
+              130) ||
+        //These condition checks if the player's chakraball upper corner its inside the enemy. Check y asis
+        (this.enemy.y <= this.player.y + 130 &&
+          this.enemy.y + this.enemy.height >=
+            this.player.y +
+              this.player.charImages[0].height * this.player.scale -
+              130) ||
+        //These condition checks if the player's chakraball its inside the enemy's body. Check y asis
+        (this.enemy.y >= this.player.y + 130 &&
+          this.enemy.y + this.enemy.height <=
+            this.player.y +
+              this.player.charImages[0].height * this.player.scale -
+              130))
+      //These condition checks if the enemy's body its inside the chakraball. Its an hipotetic case, because chars by default are bigger than chakraball. Check y asis
+    ) {
       /*
        //Save the collition Point to draw Explosion Animation
        this.player.chakraBall.lastExplosionX = this.player.chakraBall.x;
@@ -525,35 +559,24 @@ class Game {
        this.player.chakraBall.chakraExplosionAni._executeAnimationExplosion();
       
        */
-       this.player.canReceiveDamage = true;
-       this.enemy.canReceiveDamage = true;     
-   //    console.log(this.player.canReceiveDamage);
-    //   console.log(this.enemy.canReceiveDamage);
-     }
+      this.player.canReceiveDamage = true;
+      this.enemy.canReceiveDamage = true;
+      //    console.log(this.player.canReceiveDamage);
+      //   console.log(this.enemy.canReceiveDamage);
+    }
 
-      //Check if GameOver
-      //if player dies show other image
-      if(this.player.health <= 0){
-        this.player.stateImg = 2;
-        this._playShowGameOver();
-       } else if (this.enemy.health <= 0){  //if enemy dies show other image
-         this.enemy.stateImg = 2;
-         this._playShowGameOver();
-       }
+    //Check if GameOver
+    //if player dies show other image
+    if (this.player.health <= 0) {
+      this.player.stateImg = 2;
+      this._playShowGameOver();
+    } else if (this.enemy.health <= 0) {
+      //if enemy dies show other image
+      this.enemy.stateImg = 2;
+      this._playShowGameOver();
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-    
-/*
+    /*
     console.log(
       "Player Position Status:",
       "\nX-Left= ",
@@ -626,123 +649,94 @@ class Game {
 
   //Method to draw the markers
   _drawMarkers(char) {
+    let imgMarker = 10;
 
-      let imgMarker = 10;
-      
-      if (char === "player"){
-      
-        if(this.player.health >= 90){
-          imgMarker = 10;
-        } else if(this.player.health >= 80){
-          imgMarker = 9;
-        } else if(this.player.health >= 70){
-          imgMarker = 8;
-        } else if(this.player.health >= 60){
-          imgMarker = 7;
-        } else if(this.player.health >= 50){
-          imgMarker = 6;
-        } else if(this.player.health >= 40){
-          imgMarker = 5;
-        } else if(this.player.health >= 30){
-          imgMarker = 4;
-        } else if(this.player.health >= 20){
-          imgMarker = 3;
-        } else if(this.player.health >= 10){
-          imgMarker = 2;
-        } else if(this.player.health >= 1){
-          imgMarker = 1;
-        } else if(this.player.health <= 0){
-          imgMarker = 0;
-        } 
-
-        this.ctx.drawImage(
-          this.player.marker[imgMarker],
-          0,
-          0,
-          350,
-          35
-        );
-
-      }else{
-
-        if(this.enemy.health >= 90){
-          imgMarker = 10;
-        } else if(this.enemy.health >= 80){
-          imgMarker = 9;
-        } else if(this.enemy.health >= 70){
-          imgMarker = 8;
-        } else if(this.enemy.health >= 60){
-          imgMarker = 7;
-        } else if(this.enemy.health >= 50){
-          imgMarker = 6;
-        } else if(this.enemy.health >= 40){
-          imgMarker = 5;
-        } else if(this.enemy.health >= 30){
-          imgMarker = 4;
-        } else if(this.enemy.health >= 20){
-          imgMarker = 3;
-        } else if(this.enemy.health >= 10){
-          imgMarker = 2;
-        } else if(this.enemy.health >= 1){
-          imgMarker = 1;
-        } else if(this.enemy.health <= 0){
-          imgMarker = 0;
-        } 
-        this.ctx.drawImage(
-          this.enemy.marker[imgMarker],
-          650,
-          0,
-          350,
-          35
-        );
+    if (char === "player") {
+      if (this.player.health >= 90) {
+        imgMarker = 10;
+      } else if (this.player.health >= 80) {
+        imgMarker = 9;
+      } else if (this.player.health >= 70) {
+        imgMarker = 8;
+      } else if (this.player.health >= 60) {
+        imgMarker = 7;
+      } else if (this.player.health >= 50) {
+        imgMarker = 6;
+      } else if (this.player.health >= 40) {
+        imgMarker = 5;
+      } else if (this.player.health >= 30) {
+        imgMarker = 4;
+      } else if (this.player.health >= 20) {
+        imgMarker = 3;
+      } else if (this.player.health >= 10) {
+        imgMarker = 2;
+      } else if (this.player.health >= 1) {
+        imgMarker = 1;
+      } else if (this.player.health <= 0) {
+        imgMarker = 0;
       }
+
+      this.ctx.drawImage(this.player.marker[imgMarker], 0, 0, 350, 35);
+    } else {
+      if (this.enemy.health >= 90) {
+        imgMarker = 10;
+      } else if (this.enemy.health >= 80) {
+        imgMarker = 9;
+      } else if (this.enemy.health >= 70) {
+        imgMarker = 8;
+      } else if (this.enemy.health >= 60) {
+        imgMarker = 7;
+      } else if (this.enemy.health >= 50) {
+        imgMarker = 6;
+      } else if (this.enemy.health >= 40) {
+        imgMarker = 5;
+      } else if (this.enemy.health >= 30) {
+        imgMarker = 4;
+      } else if (this.enemy.health >= 20) {
+        imgMarker = 3;
+      } else if (this.enemy.health >= 10) {
+        imgMarker = 2;
+      } else if (this.enemy.health >= 1) {
+        imgMarker = 1;
+      } else if (this.enemy.health <= 0) {
+        imgMarker = 0;
+      }
+      this.ctx.drawImage(this.enemy.marker[imgMarker], 650, 0, 350, 35);
+    }
   }
 
-  _playShowGameOver(){
+  _playShowGameOver() {
     //stops IA and player base img interval
     clearInterval(this.intervalEnemyIA);
-    clearInterval(this.intervalImg)
-    //waits to end current animation before to draw 
+    clearInterval(this.intervalImg);
+    //waits to end current animation before to draw
     this.intervalWaitGameOver = setTimeout(() => {
       clearInterval(this.intervalWaitGameOver);
       this._clean();
       this._drawEnemy();
       this._drawPlayer();
-      this._drawMarkers('player');
-      this._drawMarkers('enemy');
+      this._drawMarkers("player");
+      this._drawMarkers("enemy");
 
-      if(this.player.health <= 0){
-        this.ctx.drawImage(
-            lose,
-            350,
-            100,
-            300,
-            300
-        );
-      }else{
-        this.ctx.drawImage(
-            win,
-            350,
-            100,
-            300,
-            300
-        );
+      if (this.player.health <= 0) {
+        this.ctx.drawImage(lose, 350, 100, 300, 300);
+      } else {
+        this.ctx.drawImage(win, 350, 100, 300, 300);
       }
 
       this.intervalGameOver = setTimeout(() => {
         clearInterval(this.intervalGameOver);
         this._gameOver();
       }, 4000);
-
     }, 1000);
   }
 
   //Manage the game when its over
   _gameOver() {
-    const finalPage = document.getElementById('final-page');
+    const finalPage = document.getElementById("final-page");
     finalPage.style = "display: flex";
-    const canvas = document.getElementById('canvas');
-    canvas.style = "display: none;"
+    const canvas = document.getElementById("canvas");
+    canvas.style = "display: none;";
   }
 
   //Method to clean the screen everytime
@@ -762,10 +756,10 @@ class Game {
     this._checkPlayerAdvancedFront();
     this._checkEnemyAdvancedFront();
     this._checkCollisions();
-    this._drawMarkers('player');
-    this._drawMarkers('enemy');
+    this._drawMarkers("player");
+    this._drawMarkers("enemy");
     this._drawExplosionAnimation();
-    if (this.player.health > 0 && this.enemy.health > 0){
+    if (this.player.health > 0 && this.enemy.health > 0) {
       window.requestAnimationFrame(() => this._update());
     }
   }
@@ -778,8 +772,8 @@ class Game {
     }, 600);
     //After a moving, turn base char position
     this.intervalImg = setInterval(() => {
-          this.player.stateImg = 0;
-          this.enemy.stateImg = 0;
+      this.player.stateImg = 0;
+      this.enemy.stateImg = 0;
     }, 1500);
     this._update();
   }
