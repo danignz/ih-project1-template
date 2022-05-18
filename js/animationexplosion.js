@@ -2,6 +2,7 @@ class AnimationExplosion {
     constructor() {
       this.actionInterval = undefined;
       this.isExploding = undefined;
+      this.explosionSound = new sound('./sounds/explosion.wav');
     }
     //Method to stop interval and reset its id
     _stopAction() {

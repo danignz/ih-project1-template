@@ -415,6 +415,7 @@ class Game {
       this.player.chakraBall._stopMove();
       this.enemy.chakraBall._stopMove();
       this.player.chakraBall.chakraExplosionAni._executeAnimationExplosion();
+      this.player.chakraBall.chakraExplosionAni.explosionSound.play();
     }
 
     //Enemy collides with a chakraball
@@ -453,6 +454,7 @@ class Game {
       this.player.chakraBall._stopMove();
       this.enemy.receiveDamage(this.player.specialAttack());
       this.player.chakraBall.chakraExplosionAni._executeAnimationExplosion();
+      this.player.chakraBall.chakraExplosionAni.explosionSound.play();
       //sets hurt image
       this.enemy.stateImg = 11;
     }
@@ -502,6 +504,7 @@ class Game {
       this.enemy.chakraBall._stopMove();
       this.player.receiveDamage(this.enemy.specialAttack());
       this.enemy.chakraBall.chakraExplosionAni._executeAnimationExplosion();
+      this.enemy.chakraBall.chakraExplosionAni.explosionSound.play();
       //sets hurt image
       this.player.stateImg = 11;
     }
