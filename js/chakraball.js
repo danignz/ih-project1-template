@@ -9,6 +9,7 @@ class ChakraBall {
     this.chakraExplosionAni = new AnimationExplosion();
     this.explosionImages = explosionSequence;
     this.kameSound0 = new sound('./sounds/kame0.wav');
+    this.kameSound1 = new sound('./sounds/kame1.wav');
   }
 
   //Method to stop interval and set initial values

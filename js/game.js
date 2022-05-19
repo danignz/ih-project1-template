@@ -351,7 +351,7 @@ class Game {
             //Plays the player's action animation linked to Chakraball throwing
             this.enemy.charAnimaton._executeAnimation("energy");
             this.enemy.energyInterval = setTimeout(() => {
-              this.enemy.chakraBall.kameSound0.play();
+              this.enemy.chakraBall.kameSound1.play();
               //Plays the player's action animation linked to Chakraball throwing
               this.enemy.charAnimaton._executeAnimation("special");
               //Invoke to _setStart method, it needs to know the coordinates of the enemy's current position and add to the X-asis its width to be draw in the right place
@@ -424,7 +424,7 @@ class Game {
       this.player.chakraBall._stopMove();
       this.enemy.chakraBall._stopMove();
       this.player.chakraBall.kameSound0.stop();
-      this.enemy.chakraBall.kameSound0.stop();
+      this.enemy.chakraBall.kameSound1.stop();
       this.player.chakraBall.chakraExplosionAni._executeAnimationExplosion();
       this.player.chakraBall.chakraExplosionAni.explosion2Sound.play();
     }
@@ -515,7 +515,7 @@ class Game {
       //This means that chakraball hurts player
       this.enemy.chakraBall._stopMove();
       this.player.receiveDamage(this.enemy.specialAttack());
-      this.enemy.chakraBall.kameSound0.stop();
+      this.enemy.chakraBall.kameSound1.stop();
       this.enemy.chakraBall.chakraExplosionAni._executeAnimationExplosion();
       this.enemy.chakraBall.chakraExplosionAni.explosionSound.play();
       //sets hurt image
