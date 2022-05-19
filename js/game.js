@@ -12,6 +12,8 @@ class Game {
     this.fight2Sound = new sound('./sounds/weakpunch.wav');
     this.fight3Sound = new sound('./sounds/strongpunch.wav');
     this.fight4Sound = new sound('./sounds/strongkick.wav');
+    this.winner = new sound('./sounds/winner.wav');
+    this.loser = new sound('./sounds/loser.wav');
   }
 
   //Method to draw the static player at the screen
@@ -771,8 +773,10 @@ if(!this.intervalSound){
 
       if (this.player.health <= 0) {
         this.ctx.drawImage(lose, 350, 100, 300, 300);
+        this.loser.play();
       } else {
         this.ctx.drawImage(win, 350, 100, 300, 300);
+        this.winner.play();
       }
 
       this.intervalGameOver = setTimeout(() => {
