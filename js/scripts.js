@@ -38,48 +38,56 @@ window.onload = function () {
     player = 6;
     selectPage.style = "display: none";
     selectEnemyPage.style = "display: flex";
+    document.getElementById("myaudio2").src = "./sounds/choose.wav";
   });
 
   document.getElementById("Vegeta").addEventListener("click", function () {
     player = 4;
     selectPage.style = "display: none";
     selectEnemyPage.style = "display: flex";
+    document.getElementById("myaudio2").src = "./sounds/choose.wav";
   });
 
   document.getElementById("GogetaBlue").addEventListener("click", function () {
     player = 0;
     selectPage.style = "display: none";
     selectEnemyPage.style = "display: flex";
+    document.getElementById("myaudio2").src = "./sounds/choose.wav";
   });
 
   document.getElementById("MutenRoshi").addEventListener("click", function () {
     player = 5;
     selectPage.style = "display: none";
     selectEnemyPage.style = "display: flex";
+    document.getElementById("myaudio2").src = "./sounds/choose.wav";
   });
 
   document.getElementById("Gohan").addEventListener("click", function () {
     player = 3;
     selectPage.style = "display: none";
     selectEnemyPage.style = "display: flex";
+    document.getElementById("myaudio2").src = "./sounds/choose.wav";
   });
 
   document.getElementById("Cell").addEventListener("click", function () {
     player = 1;
     selectPage.style = "display: none";
     selectEnemyPage.style = "display: flex";
+    document.getElementById("myaudio2").src = "./sounds/choose.wav";
   });
 
   document.getElementById("SuperBuu").addEventListener("click", function () {
     player = 7;
     selectPage.style = "display: none";
     selectEnemyPage.style = "display: flex";
+    document.getElementById("myaudio2").src = "./sounds/choose.wav";
   });
 
   document.getElementById("Jiren").addEventListener("click", function () {
     player = 2;
     selectPage.style = "display: none";
     selectEnemyPage.style = "display: flex";
+    document.getElementById("myaudio2").src = "./sounds/choose.wav";
   });
 
   document.getElementById("XenoGoku2").addEventListener("click", function () {
@@ -123,6 +131,7 @@ window.onload = function () {
   });
 
   function startGame() {
+    document.getElementById("myaudio2").src = "./sounds/choose.wav";
     selectEnemyPage.style = "display: none";
     canvas.classList.remove("hidden");
     const game = new Game(ctx);
