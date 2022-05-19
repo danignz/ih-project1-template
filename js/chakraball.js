@@ -8,6 +8,7 @@ class ChakraBall {
     this.lastExplosionY = undefined;
     this.chakraExplosionAni = new AnimationExplosion();
     this.explosionImages = explosionSequence;
+    this.kameSound0 = new sound('./sounds/kame0.wav');
   }
 
   //Method to stop interval and set initial values
@@ -44,7 +45,7 @@ class ChakraBall {
         }else{
           this.x = this.x - 40;
         }
-        let randomYDirection = Math.floor(Math.random() * 15);
+        let randomYDirection = Math.floor(Math.random() * 10);
         if(randomYDirection % 2 === 0){
           this.y = this.y - randomYDirection;
         }else{

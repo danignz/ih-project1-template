@@ -4,6 +4,9 @@ class AnimationPlayer {
     this.lasttFrame = undefined;
     this.animationTime = undefined;
     this.actionInterval = undefined;
+    this.punchSound = new sound('./sounds/punch.wav');
+    this.kickSound = new sound('./sounds/kick.wav');
+    this.auraSound = new sound('./sounds/aura.wav');
   }
   //Method to stop interval and reset its id
   _stopAction() {
@@ -17,6 +20,7 @@ class AnimationPlayer {
         this.initFrame = 5;
         this.lasttFrame = 10;
         this.animationTime = 300;
+        this.auraSound.play();
         break;
       case "intro":
         this.initFrame = 12;
@@ -27,11 +31,13 @@ class AnimationPlayer {
         this.initFrame = 18;
         this.lasttFrame = 23;
         this.animationTime = 160;
+        this.kickSound.play();
         break;
       case "punch":
         this.initFrame = 25;
         this.lasttFrame = 30;
         this.animationTime = 160;
+        this.punchSound.play();
         break;
       case "special":
         this.initFrame = 32;
