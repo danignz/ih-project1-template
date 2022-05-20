@@ -758,7 +758,7 @@ class Game {
     //When the game starts, the Enemy's IA is activated till the end of the game
     this.intervalEnemyIA = setInterval(() => {
       this._manageEnemyIA();
-    }, 500);
+    }, 650);
     //After a moving, turn base char position image
     this.intervalImg = setInterval(() => {
       this.player.stateImg = 0;
