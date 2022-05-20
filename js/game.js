@@ -8,7 +8,7 @@ class Game {
     this.intervalWaitGameOver = undefined;
     this.intervalImg = undefined;
     this.intervalTimeOverId = undefined;
-    this.currentTime = 90;
+    this.currentTime = 60;
     this.fight0Sound = new sound("./sounds/meleemisses.wav");
     this.fight1Sound = new sound("./sounds/weakkick.wav");
     this.fight2Sound = new sound("./sounds/weakpunch.wav");
@@ -269,7 +269,7 @@ class Game {
 
   //Method that controls the machine's IA
   _manageEnemyIA() {
-    let randomAction = Math.floor(Math.random() * 13); // expected output: between 0-14;
+    let randomAction = Math.floor(Math.random() * 15); // expected output: between 0-14;
     if (
       !this.enemy.chakraBall.moveInterval &&
       !this.enemy.chakraBall.moveIntervalWait &&
@@ -316,6 +316,7 @@ class Game {
         case 3:
         case 4:
         case 5:
+        case 6:
           this.enemy.charAnimaton._executeAnimation("punch");
           if (this.player.canReceiveDamage === true) {
             this.player.receiveDamage(this.enemy.punchAttack());
@@ -323,9 +324,10 @@ class Game {
             this.player.stateImg = 11;
           }
           break;
-        case 6:
         case 7:
         case 8:
+        case 9:
+        case 10:
           this.enemy.charAnimaton._executeAnimation("kick");
           if (this.player.canReceiveDamage === true) {
             this.player.receiveDamage(this.enemy.kickAttack());
@@ -333,19 +335,23 @@ class Game {
             this.player.stateImg = 11;
           }
           break;
-        case 9:
+        case 11:
           for (let i = 0; i < randomAction; i++) {
             this.enemy.moveRight();
           }
           this.enemy.charAnimaton._executeAnimation("energy");
           break;
-        case 10:
-         this.enemy.charAnimaton._executeAnimation("intro");
-        case 11:
+        case 12:
+          this.enemy.charAnimaton._executeAnimation("intro");
           for (let i = 0; i < randomAction; i++) {
             this.enemy.moveRight();
           }
-        case 12:
+          break;
+        case 13:
+          for (let i = 0; i < randomAction; i++) {
+            this.enemy.moveRight();
+          }
+        case 14:
           //Only creates a new ChakraBall if both setInterval are undefined (that means that there are not another running in this moment)
           //The moveIntervalWait manages the duration of char's animation before throwing the ball. Undefined means that there are not another running in this moment.
           if (

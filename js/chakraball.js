@@ -47,7 +47,7 @@ class ChakraBall {
         } else {
           this.x = this.x - 40;
         }
-        let randomYDirection = Math.floor(Math.random() * 10);
+        let randomYDirection = Math.floor(Math.random() * 7);
         //Generate a movement effect over Y axis for the chakraball
         if (randomYDirection % 2 === 0) {
           this.y = this.y - randomYDirection;
