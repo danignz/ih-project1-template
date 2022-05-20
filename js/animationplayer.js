@@ -4,9 +4,9 @@ class AnimationPlayer {
     this.lasttFrame = undefined;
     this.animationTime = undefined;
     this.actionInterval = undefined;
-    this.punchSound = new sound('./sounds/punch.wav');
-    this.kickSound = new sound('./sounds/kick.wav');
-    this.auraSound = new sound('./sounds/aura.wav');
+    this.punchSound = new sound("./sounds/punch.wav");
+    this.kickSound = new sound("./sounds/kick.wav");
+    this.auraSound = new sound("./sounds/aura.wav");
   }
   //Method to stop interval and reset its id
   _stopAction() {
@@ -47,7 +47,8 @@ class AnimationPlayer {
       default:
     }
 
-    //Each execution of actionInterval will cause to draw a different frame, due initFrame changed on switch statement and it will be readed by the Game method _drawAnimation
+    //Each execution of actionInterval will cause to draw the next frame of a certain action,
+    //due initFrame changed on switch statement chosing the action to draw and it will be readed by the Game method _drawAnimation
     this.actionInterval = setInterval(() => {
       //If its the last Animation frame, stop the interval
       if (this.initFrame >= this.lasttFrame) {

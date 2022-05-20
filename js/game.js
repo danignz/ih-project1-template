@@ -335,6 +335,9 @@ class Game {
           }
           break;
         case 9:
+          for (let i = 0; i < randomAction; i++) {
+            this.enemy.moveRight();
+          }
           this.enemy.charAnimaton._executeAnimation("energy");
           break;
         case 10:
@@ -372,8 +375,6 @@ class Game {
   }
 
   _checkCollisions() {
-    //console.log(this.player.canReceiveDamage);
-    //console.log(this.enemy.canReceiveDamage);
     this.player.canReceiveDamage = false;
     this.enemy.canReceiveDamage = false;
 
@@ -617,8 +618,6 @@ if(!this.intervalSound){
   }
       this.player.canReceiveDamage = true;
       this.enemy.canReceiveDamage = true;
-      //    console.log(this.player.canReceiveDamage);
-      //   console.log(this.enemy.canReceiveDamage);
     }
 
     //Check if GameOver
@@ -637,75 +636,6 @@ if(!this.intervalSound){
       this.timeOverSound.play();
       this._playShowGameOver();
     }
-    /*
-    console.log(
-      "Player Position Status:",
-      "\nX-Left= ",
-      this.player.x,
-      "\nX-Right=",
-      this.player.x + this.player.width,
-      "\nWidth= ",
-      this.player.width,
-      "\nY-Top= ",
-      this.player.y,
-      "\nY-Button= ",
-      this.player.y + this.player.height,
-      "\nHeight= ",
-      this.player.height
-    );
-
-    console.log(
-      "Enemy Position Status:",
-      "\nX-Left= ",
-      Math.abs(this.enemy.x) - this.enemy.width,
-      "\nX-Right=",
-      Math.abs(this.enemy.x),
-      "\nWidth= ",
-      this.enemy.width,
-      "\nY-Top= ",
-      this.enemy.y,
-      "\nY-Button= ",
-      this.enemy.y + this.enemy.height,
-      "\nHeight= ",
-      this.enemy.height
-    );
-
-    console.log(
-      "Player ChakraBall Status:",
-      "\nX-Left= ",
-      this.player.chakraBall.x,
-      "\nX-Right=",
-      this.player.chakraBall.x +
-        this.player.charImages[1].width * this.player.scale,
-      "\nWidth= ",
-      this.player.charImages[1].width * this.player.scale,
-      "\nY-Top= ",
-      this.player.chakraBall.y,
-      "\nY-Button= ",
-      this.player.chakraBall.y +
-        this.player.charImages[1].height * this.player.scale,
-      "\nHeight= ",
-      this.player.charImages[1].height * this.player.scale
-    );
-
-    console.log(
-      "Enemy ChakraBall Status:",
-      "\nX-Left= ",
-      this.enemy.chakraBall.x,
-      "\nX-Right=",
-      this.enemy.chakraBall.x -
-        this.enemy.charImages[1].width * this.enemy.scale,
-      "\nWidth= ",
-      this.enemy.charImages[1].width * this.enemy.scale,
-      "\nY-Top= ",
-      this.enemy.chakraBall.y,
-      "\nY-Button= ",
-      this.enemy.chakraBall.y +
-        this.enemy.charImages[1].height * this.enemy.scale,
-      "\nHeight= ",
-      this.enemy.charImages[1].height * this.enemy.scale
-    );
-    */
   }
 
   //Method to draw the markers

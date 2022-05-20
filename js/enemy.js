@@ -1,5 +1,4 @@
 class Enemy extends Player {
-
   moveLeft() {
     //As long as the enemy image is not cut by the left side we can move
     //The condition ableToAdvance checks if the fighters dont across each other in the X asis

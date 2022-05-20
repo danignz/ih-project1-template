@@ -1,5 +1,5 @@
 class Player {
-  constructor(x, y, charObject,marker) {
+  constructor(x, y, charObject, marker) {
     this.x = x;
     this.y = y;
     //Due the images do not have the same size, it is necessary to scale depending on each character
@@ -27,7 +27,7 @@ class Player {
     if (
       this.x + 15 <= canvas.width - this.width &&
       !this.chakraBall.moveInterval &&
-      !this.chakraBall.moveIntervalWait && 
+      !this.chakraBall.moveIntervalWait &&
       this.ableToAdvance === true
     ) {
       this.x = this.x + 15;
@@ -63,7 +63,7 @@ class Player {
 
   moveDown() {
     //As long as the character image is not cut by the down side we can move down
-    //When a chakraBall its running, char can not move   
+    //When a chakraBall its running, char can not move
     if (
       this.y + 15 <= canvas.height - this.height &&
       !this.chakraBall.moveInterval &&
@@ -74,20 +74,19 @@ class Player {
     }
   }
 
-  punchAttack(){
-    return this.strength*2;
+  punchAttack() {
+    return this.strength * 2;
   }
 
-  kickAttack(){
-    return this.strength*2;
+  kickAttack() {
+    return this.strength * 2;
   }
 
-  specialAttack(){
-    return this.strength*3;
+  specialAttack() {
+    return this.strength * 3;
   }
 
-  receiveDamage(damage){
+  receiveDamage(damage) {
     this.health = this.health - damage;
   }
-
 }

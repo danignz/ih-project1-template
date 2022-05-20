@@ -207,6 +207,8 @@ win.src = './img/GameOver/win.png';
 const lose = new Image();
 lose.src = './img/GameOver/lose.png';
 
+//Load images to manage the explosion animation
+
 const explosionSequence = [];
 
 explosionSequence[0] = new Image();

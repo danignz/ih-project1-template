@@ -8,8 +8,8 @@ class ChakraBall {
     this.lastExplosionY = undefined;
     this.chakraExplosionAni = new AnimationExplosion();
     this.explosionImages = explosionSequence;
-    this.kameSound0 = new sound('./sounds/kame0.wav');
-    this.kameSound1 = new sound('./sounds/kame1.wav');
+    this.kameSound0 = new sound("./sounds/kame0.wav");
+    this.kameSound1 = new sound("./sounds/kame1.wav");
   }
 
   //Method to stop interval and set initial values
@@ -41,15 +41,17 @@ class ChakraBall {
     this.moveIntervalWait = setInterval(() => {
       this.moveInterval = setInterval(() => {
         this._stopWait(); //Stop the first interval, only wait for one time till the char execute the throwing animation
-        if (summoner === "player"){ //depen on if the summoner is the player or the enemy will move the ball in the correct direction
+        if (summoner === "player") {
+          //depen on if the summoner is the player or the enemy will move the ball in the correct direction
           this.x = this.x + 40;
-        }else{
+        } else {
           this.x = this.x - 40;
         }
         let randomYDirection = Math.floor(Math.random() * 10);
-        if(randomYDirection % 2 === 0){
+        //Generate a movement effect over Y axis for the chakraball
+        if (randomYDirection % 2 === 0) {
           this.y = this.y - randomYDirection;
-        }else{
+        } else {
           this.y = this.y + randomYDirection;
         }
         if (i > limitTimes) {
