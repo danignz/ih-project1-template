@@ -7,16 +7,16 @@ class Game {
     this.intervalGameOver = undefined;
     this.intervalWaitGameOver = undefined;
     this.intervalImg = undefined;
-    this.intervalTimeOverId = null;
-    this.currentTime = 99;
-    this.fight0Sound = new sound('./sounds/meleemisses.wav');
-    this.fight1Sound = new sound('./sounds/weakkick.wav');
-    this.fight2Sound = new sound('./sounds/weakpunch.wav');
-    this.fight3Sound = new sound('./sounds/strongpunch.wav');
-    this.fight4Sound = new sound('./sounds/strongkick.wav');
-    this.timeOverSound = new sound('./sounds/timeover.wav');
-    this.winner = new sound('./sounds/winner.wav');
-    this.loser = new sound('./sounds/loser.wav');
+    this.intervalTimeOverId = undefined;
+    this.currentTime = 90;
+    this.fight0Sound = new sound("./sounds/meleemisses.wav");
+    this.fight1Sound = new sound("./sounds/weakkick.wav");
+    this.fight2Sound = new sound("./sounds/weakpunch.wav");
+    this.fight3Sound = new sound("./sounds/strongpunch.wav");
+    this.fight4Sound = new sound("./sounds/strongkick.wav");
+    this.timeOverSound = new sound("./sounds/timeover.wav");
+    this.winner = new sound("./sounds/winner.wav");
+    this.loser = new sound("./sounds/loser.wav");
   }
 
   //Method to draw the static player at the screen
@@ -270,7 +270,6 @@ class Game {
   //Method that controls the machine's IA
   _manageEnemyIA() {
     let randomAction = Math.floor(Math.random() * 13); // expected output: between 0-14;
-    //let randomAction = 12;
     if (
       !this.enemy.chakraBall.moveInterval &&
       !this.enemy.chakraBall.moveIntervalWait &&
@@ -341,7 +340,7 @@ class Game {
           this.enemy.charAnimaton._executeAnimation("energy");
           break;
         case 10:
-        // this.enemy.charAnimaton._executeAnimation("intro");
+         this.enemy.charAnimaton._executeAnimation("intro");
         case 11:
           for (let i = 0; i < randomAction; i++) {
             this.enemy.moveRight();
@@ -354,11 +353,11 @@ class Game {
             !this.enemy.chakraBall.moveIntervalWait &&
             this.enemy.charAnimaton.actionInterval === undefined
           ) {
-            //Plays the player's action animation linked to Chakraball throwing
+            //Plays the enemy's action animation linked to Chakraball throwing
             this.enemy.charAnimaton._executeAnimation("energy");
             this.enemy.energyInterval = setTimeout(() => {
               this.enemy.chakraBall.kameSound1.play();
-              //Plays the player's action animation linked to Chakraball throwing
+              //Plays the enemy's action animation linked to Chakraball throwing
               this.enemy.charAnimaton._executeAnimation("special");
               //Invoke to _setStart method, it needs to know the coordinates of the enemy's current position and add to the X-asis its width to be draw in the right place
               this.enemy.chakraBall._setStart(
@@ -374,10 +373,12 @@ class Game {
     }
   }
 
+  //The most important method. Manage all the elements collisions and update the life of players if during a collision there are a action that produce damage.
   _checkCollisions() {
     this.player.canReceiveDamage = false;
     this.enemy.canReceiveDamage = false;
 
+    //Manage the chakraball's collitions
     //Two chakraballs collides with each other. If only for visual purpose.
     //The first condition checks if the enemy's chakraball completely through the player's ball. Check x asis
     if (
@@ -424,7 +425,7 @@ class Game {
       this.player.chakraBall.lastExplosionX = this.player.chakraBall.x;
       this.player.chakraBall.lastExplosionY = this.player.chakraBall.y;
 
-      //if it collides the animation will stop
+      //if it collides the animation will stop, and launch the explosion animation and sound
       this.player.chakraBall._stopMove();
       this.enemy.chakraBall._stopMove();
       this.player.chakraBall.kameSound0.stop();
@@ -465,7 +466,7 @@ class Game {
       this.player.chakraBall.lastExplosionX = this.player.chakraBall.x;
       this.player.chakraBall.lastExplosionY = this.player.chakraBall.y;
 
-      //This means that chakraball hurts enemy
+      //This means that chakraball hurts enemy. Update the enemy damage and launch the explosion sound and animation.
       this.player.chakraBall._stopMove();
       this.enemy.receiveDamage(this.player.specialAttack());
       this.player.chakraBall.chakraExplosionAni._executeAnimationExplosion();
@@ -542,10 +543,9 @@ class Game {
       //check if player if close to the enemy in x asis
       this.player.ableToAdvance === false &&
       this.enemy.ableToAdvance === false &&
-      //check if player's chakraball across inside the enemy in y asis
+      //check if player if close to the enemy in y asis
       ((this.enemy.y <= this.player.y + 130 &&
         this.enemy.y + this.enemy.height >= this.player.y + 130) ||
-        //These condition checks if the player's chakraball botton corner its inside the enemy. Check y asis
         (this.enemy.y <=
           this.player.y +
             this.player.charImages[0].height * this.player.scale -
@@ -554,68 +554,50 @@ class Game {
             this.player.y +
               this.player.charImages[0].height * this.player.scale -
               130) ||
-        //These condition checks if the player's chakraball upper corner its inside the enemy. Check y asis
         (this.enemy.y <= this.player.y + 130 &&
           this.enemy.y + this.enemy.height >=
             this.player.y +
               this.player.charImages[0].height * this.player.scale -
               130) ||
-        //These condition checks if the player's chakraball its inside the enemy's body. Check y asis
         (this.enemy.y >= this.player.y + 130 &&
           this.enemy.y + this.enemy.height <=
             this.player.y +
               this.player.charImages[0].height * this.player.scale -
               130))
-      //These condition checks if the enemy's body its inside the chakraball. Its an hipotetic case, because chars by default are bigger than chakraball. Check y asis
     ) {
-      /*
-       //Save the collition Point to draw Explosion Animation
-       this.player.chakraBall.lastExplosionX = this.player.chakraBall.x;
-       this.player.chakraBall.lastExplosionY = this.player.chakraBall.y;
+      //This statement manage the audio when fighters are hitting each other
+      if (
+        this.enemy.charAnimaton.actionInterval &&
+        this.player.charAnimaton.actionInterval
+      ) {
+        if (!this.intervalSound) {
+          this.intervalSound = setTimeout(() => {
+            const randomSound = Math.floor(Math.random() * 5);
+            switch (randomSound) {
+              case 0:
+                this.fight0Sound.play();
+                break;
+              case 1:
+                this.fight1Sound.play();
+                break;
+              case 2:
+                this.fight2Sound.play();
+                break;
+              case 3:
+                this.fight3Sound.play();
+                break;
+              case 4:
+                this.fight4Sound.play();
+                break;
+              default:
+            }
 
-       //This means that chakraball hurts enemy
-       this.player.chakraBall._stopMove();
-       this.enemy.receiveDamage(this.player.specialAttack());
-       this.player.chakraBall.chakraExplosionAni._executeAnimationExplosion();
-      
-       */
-    
-    if(this.enemy.charAnimaton.actionInterval && this.player.charAnimaton.actionInterval){
-  //   this.player.charAnimaton.punchSound.stop();
-  //   this.player.charAnimaton.kickSound.stop();
-  //   this.enemy.charAnimaton.punchSound.stop();
-  //   this.enemy.charAnimaton.kickSound.stop();
-if(!this.intervalSound){
-      this.intervalSound = setTimeout(() => {
-
-        const randomSound = Math.floor(Math.random() * 5);
-        switch (randomSound) {
-          case 0:
-            this.fight0Sound.play();
-            break;
-          case 1:
-            this.fight1Sound.play();
-            break;
-          case 2:
-            this.fight2Sound.play();
-            break;
-          case 3:
-            this.fight3Sound.play();
-            break;
-          case 4:
-            this.fight4Sound.play();
-            break;
-          default:
+            clearInterval(this.intervalSound);
+            this.intervalSound = undefined;
+          }, 700);
         }
-
-        clearInterval(this.intervalSound);
-        this.intervalSound = undefined;
-
-  }, 700);
-
-}
-    
-  }
+      }
+      //if the conditions are met they can be hit and get damage
       this.player.canReceiveDamage = true;
       this.enemy.canReceiveDamage = true;
     }
@@ -631,14 +613,14 @@ if(!this.intervalSound){
       this._playShowGameOver();
     }
 
-    //if the time is out
-    if (this.currentTime <= 0){
+    //if the time is out the game ends
+    if (this.currentTime <= 0) {
       this.timeOverSound.play();
       this._playShowGameOver();
     }
   }
 
-  //Method to draw the markers
+  //Method to draw the markers and update it
   _drawMarkers(char) {
     let imgMarker = 10;
 
@@ -666,7 +648,6 @@ if(!this.intervalSound){
       } else if (this.player.health <= 0) {
         imgMarker = 0;
       }
-
       this.ctx.drawImage(this.player.marker[imgMarker], 0, 0, 350, 35);
     } else {
       if (this.enemy.health >= 90) {
@@ -696,6 +677,7 @@ if(!this.intervalSound){
     }
   }
 
+  //Method to announce the winner, its a preview state before GameOver Screen
   _playShowGameOver() {
     //stops Game Timer interval
     clearInterval(this.intervalTimeOverId);
@@ -712,7 +694,7 @@ if(!this.intervalSound){
       this._drawMarkers("player");
       this._drawMarkers("enemy");
 
-      if (this.player.health <= 0 || (this.player.health <= this.enemy.health)) {
+      if (this.player.health <= 0 || this.player.health <= this.enemy.health) {
         this.ctx.drawImage(lose, 350, 100, 300, 300);
         this.loser.play();
       } else {
@@ -735,6 +717,7 @@ if(!this.intervalSound){
     canvas.style = "display: none;";
   }
 
+  //Method to draw the main Timer
   _drawTimer() {
     this.ctx.strokeText(this.currentTime, 475, 35);
     this.ctx.fillText(this.currentTime, 475, 35);
@@ -761,7 +744,11 @@ if(!this.intervalSound){
     this._drawMarkers("enemy");
     this._drawExplosionAnimation();
     this._drawTimer();
-    if (this.player.health > 0 && this.enemy.health > 0 && this.intervalTimeOverId) {
+    if (
+      this.player.health > 0 &&
+      this.enemy.health > 0 &&
+      this.intervalTimeOverId
+    ) {
       window.requestAnimationFrame(() => this._update());
     }
   }
@@ -771,15 +758,16 @@ if(!this.intervalSound){
     //When the game starts, the Enemy's IA is activated till the end of the game
     this.intervalEnemyIA = setInterval(() => {
       this._manageEnemyIA();
-    }, 600);
-    //After a moving, turn base char position
+    }, 500);
+    //After a moving, turn base char position image
     this.intervalImg = setInterval(() => {
       this.player.stateImg = 0;
       this.enemy.stateImg = 0;
     }, 1500);
+    //Control the Timer
     this.intervalTimeOverId = setInterval(() => {
       this.currentTime -= 1;
-    }, 1000)
+    }, 1000);
     this._update();
   }
 }
