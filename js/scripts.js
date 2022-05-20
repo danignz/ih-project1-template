@@ -1,6 +1,11 @@
 window.onload = function () {
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
+  ctx.font = "normal bolder 36px Sans-serif";
+  ctx.strokeStyle = 'black';
+  ctx.lineWidth = 8;
+  ctx.fillStyle = 'orange';
+
   const startPage = document.getElementById("start-page");
   const startButton = document.getElementById("start");
 

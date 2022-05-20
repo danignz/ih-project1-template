@@ -14,7 +14,7 @@ const characters = [
   { name: "Vegeta", scale: 0.26, imageSecuence: [] },
   { name: "MutenRoshi", scale: 0.30, imageSecuence: [] },
   { name: "XenoGoku", scale: 0.30, imageSecuence: [] },
-  { name: "SuperBuu", scale: 0.28, imageSecuence: [] },
+  { name: "SuperBuu", scale: 0.27, imageSecuence: [] },
 ];
 
 //Load all the images for every char

@@ -7,11 +7,14 @@ class Game {
     this.intervalGameOver = undefined;
     this.intervalWaitGameOver = undefined;
     this.intervalImg = undefined;
+    this.intervalTimeOverId = null;
+    this.currentTime = 99;
     this.fight0Sound = new sound('./sounds/meleemisses.wav');
     this.fight1Sound = new sound('./sounds/weakkick.wav');
     this.fight2Sound = new sound('./sounds/weakpunch.wav');
     this.fight3Sound = new sound('./sounds/strongpunch.wav');
     this.fight4Sound = new sound('./sounds/strongkick.wav');
+    this.timeOverSound = new sound('./sounds/timeover.wav');
     this.winner = new sound('./sounds/winner.wav');
     this.loser = new sound('./sounds/loser.wav');
   }
@@ -629,6 +632,11 @@ if(!this.intervalSound){
       this._playShowGameOver();
     }
 
+    //if the time is out
+    if (this.currentTime <= 0){
+      this.timeOverSound.play();
+      this._playShowGameOver();
+    }
     /*
     console.log(
       "Player Position Status:",
@@ -759,6 +767,9 @@ if(!this.intervalSound){
   }
 
   _playShowGameOver() {
+    //stops Game Timer interval
+    clearInterval(this.intervalTimeOverId);
+    this.intervalTimeOverId = undefined;
     //stops IA and player base img interval
     clearInterval(this.intervalEnemyIA);
     clearInterval(this.intervalImg);
@@ -771,7 +782,7 @@ if(!this.intervalSound){
       this._drawMarkers("player");
       this._drawMarkers("enemy");
 
-      if (this.player.health <= 0) {
+      if (this.player.health <= 0 || (this.player.health <= this.enemy.health)) {
         this.ctx.drawImage(lose, 350, 100, 300, 300);
         this.loser.play();
       } else {
@@ -794,6 +805,11 @@ if(!this.intervalSound){
     canvas.style = "display: none;";
   }
 
+  _drawTimer() {
+    this.ctx.strokeText(this.currentTime, 475, 35);
+    this.ctx.fillText(this.currentTime, 475, 35);
+  }
+
   //Method to clean the screen everytime
   _clean() {
     this.ctx.clearRect(0, 0, 1000, 600);
@@ -814,7 +830,8 @@ if(!this.intervalSound){
     this._drawMarkers("player");
     this._drawMarkers("enemy");
     this._drawExplosionAnimation();
-    if (this.player.health > 0 && this.enemy.health > 0) {
+    this._drawTimer();
+    if (this.player.health > 0 && this.enemy.health > 0 && this.intervalTimeOverId) {
       window.requestAnimationFrame(() => this._update());
     }
   }
@@ -830,6 +847,9 @@ if(!this.intervalSound){
       this.player.stateImg = 0;
       this.enemy.stateImg = 0;
     }, 1500);
+    this.intervalTimeOverId = setInterval(() => {
+      this.currentTime -= 1;
+    }, 1000)
     this._update();
   }
 }
